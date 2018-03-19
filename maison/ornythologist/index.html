@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://cdn.jsdelivr.net/npm/phaser@3.1.0/dist/phaser.min.js"></script>
+</head>
+<body>
+
+    <script>
+    var config = {
+        type: Phaser.CANVAS,
+        width: 800,
+        height: 340,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 },
+                // debug: true
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+    var bg;
+    var platforms;
+    var dirt;
+    var player;
+    var starsBack;
+    var hazestuff;
+    var cursors;
+    var map;
+    var layer;
+    var debugGraphics;
+    var blocs;
+
+    function preload ()
+    {
+        // this.load.setBaseURL('http://labs.phaser.io');
+
+        this.load.image('sky', 'assets/sprites/haze.png');
+        this.load.image('hazestuffbright', 'assets/sprites/hazestuffbright.png');
+        this.load.image('hazestuffdark', 'assets/sprites/hazestuffdark.png');
+        this.load.image('grass', 'assets/sprites/grass.png');
+        this.load.image('grass4-4', 'assets/tilemaps/grass4-4.png');
+        this.load.image('backstars', 'assets/sprites/starslessbright2.png');
+        this.load.image('backstarsBright1', 'assets/sprites/starsbright.png');
+        this.load.image('backstarsBright2', 'assets/sprites/stars-super-bright.png');
+        this.load.image('bloc', 'assets/sprites/bloc.png');
+        this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
+        this.load.tilemapTiledJSON('map', 'tilemaps/grass2.json');
+        this.load.image('platformer_tiles', 'assets/tilemaps/grass.png');
+    }
+
+    function create () {
+        // game.physics.startSystem(Phaser.Physics.ARCADE);
+        // this.add.image(400, 300, 'sky');
+
+        // bg = this.add.tileSprite(966, 300, 1932, 276, 'backstars');
+
+        console.log(this);
+
+        backstars = [this.add.tileSprite(0, -500, 1600, 1000, 'backstars').setOrigin(0,0)];
+        backstars.push(this.add.tileSprite(0, -500, 1600, 950, 'backstarsBright1').setOrigin(0,0));
+        backstars.push(this.add.tileSprite(0, -500, 1600, 900, 'backstarsBright2').setOrigin(0,0));
+
+        bg = this.add.tileSprite(0, 232, 1600, 56, 'sky').setOrigin(0,0);
+        /*hazestuff = [this.physics.add.staticSprite(0, 242, 'hazestuffdark').setOrigin(0,0)];
+        hazestuff.push(this.physics.add.staticSprite(0, 242, 'hazestuffbright').setOrigin(0,0));*/
+
+        hazestuff = [this.add.tileSprite(0, 242, 800, 40, 'hazestuffdark').setOrigin(0,0)];
+        hazestuff.push(this.add.tileSprite(0, 242, 800, 40, 'hazestuffbright').setOrigin(0,0));
+
+        dirt = this.add.tileSprite(0, 280, 1600, 40, 'grass4-4').setOrigin(0,0);
+        blocs = this.physics.add.staticGroup();
+        blocs.create(107, 136, 'bloc');    
+        blocs.enableBody = true;
+
+        map = this.make.tilemap({key: 'map'});
+        var tileset = map.addTilesetImage('platformer_tiles');
+
+        layer = map.createStaticLayer(0, tileset, 0, 0);
+        
+        map.setCollisionBetween(0,100);
+
+        debugGraphics = this.add.graphics();
+
+        /*map.renderDebug(debugGraphics, {
+            tileColor: null, // Non-colliding tiles
+            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+        });*/
+
+
+
+        player = this.physics.add.sprite(500, 0, 'dude', 1);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        debugGraphics = this.add.graphics();
+
+        player.body.setGravityY(300);
+        player.body.collideWorldBounds=false;
+
+        // layer.setCollisionByProperty({ type: 'tileSet' });
+
+        // this.physics.world.collide(player, layer);
+        this.physics.add.collider(player, layer);
+        this.physics.add.collider(player, blocs);
+
+        this.cameras.main.setSize(1000, 640);
+        this.cameras.main.setPosition(0, -50);
+        this.cameras.main.startFollow(player);
+
+
+        this.anims.create({
+            key: 'blink',
+            frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        player.anims.play('blink', true);
+
+        cursors = game.input.keyboard.createCursorKeys();
+    }
+
+    function renderCamera (playerX, game) {
+        if (playerX < 500) {
+            game.cameras.main.stopFollow(player);
+            // game.cameras.main.setBounds(0,0, 800, 340);
+        }
+
+        if (playerX > 500) {
+            game.cameras.main.startFollow(player);
+            renderBackgroundsForward();
+        }
+    }
+
+    function renderBackgroundsForward () {
+        var isForward = player.body.velocity.x > 0;
+        backstars.forEach((stars) => {
+            var deltaX = (backstars.indexOf(stars)+2)/10;
+            isForward ? stars.tilePositionX += deltaX : stars.tilePositionX -= deltaX;
+        });
+        hazestuff.forEach((haze) => {
+            var deltaX = (hazestuff.indexOf(haze)+2)/10;
+            isForward ? haze.tilePositionX += deltaX : haze.tilePositionX -= deltaX;
+        })
+    }
+
+    function update () {
+        this.physics.add.collider(player, platforms);
+        player.body.velocity.x = 0;
+        
+        if (cursors.left.isDown) {
+            player.body.velocity.x = -150;
+            renderCamera(player.x, this);
+        }
+        if (cursors.right.isDown) {
+            player.body.velocity.x = +150;
+            renderCamera(player.x, this);
+        }
+    }
+
+    </script>
+
+</body>
+</html>

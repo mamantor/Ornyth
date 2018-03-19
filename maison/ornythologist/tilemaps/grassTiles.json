@@ -1,0 +1,13 @@
+{ "columns":24,
+ "image":"..\/assets\/sprites\/grass.png",
+ "imageheight":40,
+ "imagewidth":960,
+ "margin":0,
+ "name":"grass",
+ "spacing":0,
+ "tilecount":24,
+ "tileheight":40,
+ "tilewidth":40,
+ "transparentcolor":"#ff00ff",
+ "type":"tileset"
+}

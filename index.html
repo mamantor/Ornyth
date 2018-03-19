@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://cdn.jsdelivr.net/npm/phaser@3.1.0/dist/phaser.min.js"></script>
+</head>
+<body>
+
+    <script>
+    
+
+    var bg;
+    var platforms;
+    var player;
+    var cursors;
+
+    var SceneB = new Phaser.Class({
+    Extends: Phaser.Scene,
+
+    initialize: function SceneB (){
+                Phaser.Scene.call(this, { key: 'sceneB' });
+            },
+
+    preload: function ()
+    {
+        // this.load.setBaseURL('http://labs.phaser.io');
+
+        this.load.image('sky', 'assets/sprites/haze.png');
+        this.load.image('grass', 'assets/sprites/grass.png');
+        this.load.image('grass4-4', 'assets/sprites/grass4-4.png');
+        this.load.image('backstars', 'assets/sprites/starslessbright2.png');
+        this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
+    },
+
+    create: function ()
+    {
+        // this.physics.startSystem(Phaser.Physics.ARCADE);
+        // this.add.image(400, 300, 'sky');
+        bg = this.add.tileSprite(966, 138, 1932, 276, 'backstars');
+        bg.fixedToCamera = true;
+        platforms = this.physics.add.staticGroup();
+        platforms.create(916, 310, 'grass').setScale(2).refreshBody();
+        platforms.enableBody = true;
+
+        player = this.physics.add.sprite(500, 0, 'dude');
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+        player.body.setGravityY(300)
+
+        this.anims.create({
+            key: 'blink',
+            frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        player.anims.play('blink', true);
+
+        console.log(this);
+
+        this.physics.add.collider(player, platforms);
+
+        cursors = this.input.keyboard.createCursorKeys();
+    },
+
+    update: function () {
+        if (cursors.left.isDown)
+        {
+            player.setVelocityX(-160);
+
+        }
+        else if (cursors.right.isDown)
+        {
+            player.setVelocityX(160);
+            console.log(player.texture)
+            player.texture = this.textures.get('grass4-4');
+
+        }
+        else
+        {
+            player.setVelocityX(0);
+
+        }
+
+        if (cursors.up.isDown && player.body.touching.down)
+        {
+            player.setVelocityY(-330);
+        }
+
+        if (cursors.down.isDown && player.body.touching.down)
+        {
+            this.scene.start('sceneA');
+        }
+
+        this.input.once('pointerdown', function () {
+
+                console.log('From SceneA to SceneB');
+
+                
+
+            }, this);
+
+    }
+});
+
+
+    var SceneA = new Phaser.Class({
+        Extends: Phaser.Scene,
+
+        preload: function () {
+                this.load.image('sky', 'assets/sprites/haze.png');
+
+        },
+        initialize: function SceneA (){
+                Phaser.Scene.call(this, { key: 'sceneA' });
+            },
+
+        create: function () {
+            console.log(this);
+            console.log(game);
+            this.add.sprite(400, 300, 'sky').setAlpha(0.2);
+
+            this.input.once('pointerdown', function () {
+
+                console.log('From SceneA to SceneB');
+
+                this.scene.start('sceneB');
+
+            }, this);
+        }
+
+    });
+
+    var config = {
+        type: Phaser.CANVAS,
+        width: 1932,
+        height: 340,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 },
+                debug: true
+            }
+        },
+        scene: [SceneB, SceneA]
+    };
+    var game = new Phaser.Game(config);
+
+
+    </script>
+
+</body>
+</html>
