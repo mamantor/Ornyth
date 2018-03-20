@@ -125,6 +125,8 @@ var SceneB = new Phaser.Class({
         layer2.setCollisionBetween(0,100);
         layer2.setTileIndexCallback(26, mine, this);
 
+        // filterTiles sur un layer pour permettre de mettre le materiau
+
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
 
@@ -146,6 +148,8 @@ var SceneB = new Phaser.Class({
         
         if (cursors.left.isDown) {
             player.setVelocityX(-160);
+            // checkCollision + GetTileAt + offset + appeler mine() avec la tile
+            // ou choper la tile d'a coté, lui mettre une callback et l'enlever hors des if input
 
         } else if (cursors.right.isDown) {   
             player.setVelocityX(160);
