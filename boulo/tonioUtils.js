@@ -6,6 +6,7 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
     var newPlayer = ctx.physics.add.sprite(newSpriteX, newSpriteY, newSpriteKey);
 
     ctx.physics.add.collider(newPlayer, layer);
+    ctx.physics.add.collider(newPlayer, layer2);
     newPlayer.setBounce(0.2);
     newPlayer.setCollideWorldBounds(true);
     newPlayer.body.setGravityY(300);

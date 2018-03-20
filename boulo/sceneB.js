@@ -3,6 +3,7 @@ var platforms;
 var player;
 var cursors;
 var layer;
+var layer2;
 var map;
 var landed = false;
 var flames = [];
@@ -11,15 +12,32 @@ var flamming = false;
 function hitMe(sprite, tile) {
 
     layer.setTileIndexCallback(20, null, this);
+    //console.log(tile);
+    // console.log(tile.index);
+    tile.index = 21;
 
     // layer.removeTileAt(tile.x, tile.y);
     player.anims.stop();
     player.anims.play('idle', true);
     player = playerOutOfSprite(player, 'dude', this);
 
-    this.scene.start('sceneA');
+    // this.scene.start('sceneA');
         
     };
+
+function mine(sprite, tile) {
+    // tile.index = 21;
+    if (tile.miningPercentage){
+        tile.miningPercentage += 1;
+    } else {
+        tile.miningPercentage = 1;
+    }
+    console.log(tile.miningPercentage);
+    // tile.baseHeight = 20;
+    // tile.visible = false;
+    // tile.destroy();
+    // tile.resetCollision();
+};
 
 var SceneB = new Phaser.Class({
     Extends: Phaser.Scene,
@@ -37,10 +55,11 @@ var SceneB = new Phaser.Class({
         this.load.image('grass4-4', 'assets/sprites/grass4-4.png');
         this.load.image('backstars', 'assets/sprites/starslessbright2.png');
         this.load.image('platformer_tiles', 'assets/tilemaps/grass.png');
+        this.load.image('to_mine', 'assets/tilemaps/grass4-4.png');
         this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
-        this.load.tilemapTiledJSON('map', 'tilemaps/grass2.json');
+        this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
 
     },
 
@@ -95,10 +114,19 @@ var SceneB = new Phaser.Class({
 
         map = this.make.tilemap({key: 'map'});
         var tileset = map.addTilesetImage('platformer_tiles');
+        var tileset2 = map.addTilesetImage('to_mine');
         layer = map.createDynamicLayer('world1', tileset, 0, 0);
-        layer.setCollisionBetween(0,100);
+        layer2 = map.createDynamicLayer('mining', tileset2, 0, 0);
+
+
+        layer.setCollisionBetween(0,25);
         layer.setTileIndexCallback(20, hitMe, this);
+
+        layer2.setCollisionBetween(0,100);
+        layer2.setTileIndexCallback(26, mine, this);
+
         this.physics.add.collider(player, layer);
+        this.physics.add.collider(player, layer2);
 
         cursors = this.input.keyboard.createCursorKeys();
     },
