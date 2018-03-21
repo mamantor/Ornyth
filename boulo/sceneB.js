@@ -27,12 +27,16 @@ function hitMe(sprite, tile) {
 
 function mine(sprite, tile) {
     // tile.index = 21;
+    console.log(tile.index);
     if (tile.miningPercentage){
         tile.miningPercentage += 1;
     } else {
         tile.miningPercentage = 1;
     }
     console.log(tile.miningPercentage);
+    if (tile.miningPercentage > 50) {
+        tile.index = 27;
+    }
     // tile.baseHeight = 20;
     // tile.visible = false;
     // tile.destroy();
@@ -55,7 +59,7 @@ var SceneB = new Phaser.Class({
         this.load.image('grass4-4', 'assets/sprites/grass4-4.png');
         this.load.image('backstars', 'assets/sprites/starslessbright2.png');
         this.load.image('platformer_tiles', 'assets/tilemaps/grass.png');
-        this.load.image('to_mine', 'assets/tilemaps/grass4-4.png');
+        this.load.image('Tilesettest', 'assets/tilemaps/Tilesettest.png');
         this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
@@ -114,7 +118,7 @@ var SceneB = new Phaser.Class({
 
         map = this.make.tilemap({key: 'map'});
         var tileset = map.addTilesetImage('platformer_tiles');
-        var tileset2 = map.addTilesetImage('to_mine');
+        var tileset2 = map.addTilesetImage('Tilesettest');
         layer = map.createDynamicLayer('world1', tileset, 0, 0);
         layer2 = map.createDynamicLayer('mining', tileset2, 0, 0);
 
@@ -123,7 +127,7 @@ var SceneB = new Phaser.Class({
         layer.setTileIndexCallback(20, hitMe, this);
 
         layer2.setCollisionBetween(0,100);
-        layer2.setTileIndexCallback(26, mine, this);
+        // layer2.setTileIndexCallback(26, mine, this);
 
         // filterTiles sur un layer pour permettre de mettre le materiau
 
@@ -148,11 +152,28 @@ var SceneB = new Phaser.Class({
         
         if (cursors.left.isDown) {
             player.setVelocityX(-160);
+            // console.log(player.body.onWall());
+            // console.log('left ', player.body.blocked.left);
+            // console.log('right ', player.body.blocked.right);
+            // console.log(player);
+            if (player.body.blocked.left){
+                // console.log(layer2.getTileAt(player.x-5, player.y, true));
+                mine(player, layer2.getTileAtWorldXY(player.x - 5, player.y, true));
+
+            }
             // checkCollision + GetTileAt + offset + appeler mine() avec la tile
             // ou choper la tile d'a coté, lui mettre une callback et l'enlever hors des if input
+            // ou choper la tile d'a coté, appeler mine dessus et gerer le cas undefined => du style if player.collideLeft == true
 
         } else if (cursors.right.isDown) {   
             player.setVelocityX(160);
+            // console.log('left ', player.body.blocked.left);
+            // console.log('right ', player.body.blocked.right);
+             if (player.body.blocked.right){
+                // console.log(layer2.getTileAt(14, 6, true));
+                // console.log('yoop', layer2.getTileAtWorldXY(player.x + 5, player.y, true));
+                mine(player, layer2.getTileAtWorldXY(player.x + 5, player.y, true));
+            }
 
         } else {
             player.setVelocityX(0);

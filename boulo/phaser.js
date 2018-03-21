@@ -70601,6 +70601,7 @@ var Tilemap = new Class({
      */
     getTileAt: function (tileX, tileY, nonNull, layer)
     {
+        console.log('toto');
         layer = this.getLayer(layer);
 
         if (layer === null) { return null; }
@@ -72219,6 +72220,7 @@ var DynamicTilemapLayer = new Class({
      */
     getTileAt: function (tileX, tileY, nonNull)
     {
+        console.log(tileX, tileY, nonNull, this.layer);
         return TilemapComponents.GetTileAt(tileX, tileY, nonNull, this.layer);
     },
 

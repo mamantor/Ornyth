@@ -50,17 +50,17 @@
          "transparentcolor":"#ff00ff"
         }, 
         {
-         "columns":1,
+         "columns":2,
          "firstgid":26,
-         "image":"..\/assets\/tilemaps\/grass4-4.png",
-         "imageheight":16,
-         "imagewidth":16,
+         "image":"..\/assets\/sprites\/Tilesettest.png",
+         "imageheight":40,
+         "imagewidth":80,
          "margin":0,
-         "name":"to_mine",
+         "name":"Tilesettest",
          "spacing":0,
-         "tilecount":1,
-         "tileheight":16,
-         "tilewidth":16
+         "tilecount":2,
+         "tileheight":40,
+         "tilewidth":40
         }],
  "tilewidth":40,
  "type":"map",
