@@ -8,6 +8,8 @@ var map;
 var landed = false;
 var flames = [];
 var flamming = false;
+var inventory;
+
 
 function hitMe(sprite, tile) {
 
@@ -27,20 +29,29 @@ function hitMe(sprite, tile) {
 
 function mine(sprite, tile) {
     // tile.index = 21;
-    console.log(tile.index);
+    console.log(tile);
     if (tile.miningPercentage){
         tile.miningPercentage += 1;
     } else {
         tile.miningPercentage = 1;
     }
-    console.log(tile.miningPercentage);
-    if (tile.miningPercentage > 50) {
-        tile.index = 27;
+    if (tile.miningPercentage > 50 && !tile.halfMined) {
+        tile.index += 1;
+        tile.halfMined = true;
     }
-    // tile.baseHeight = 20;
-    // tile.visible = false;
-    // tile.destroy();
-    // tile.resetCollision();
+    if (tile.miningPercentage > 100) {
+        const material = tile.material ? tile.material : "dirt";
+        if (material in inventory.objects) {
+            inventory.objects[material] += 5;
+        } else {
+            inventory.objects[material] = 5;
+        }
+        console.log(inventory);
+        tile.visible = false;
+        tile.destroy();
+        tile.resetCollision();
+    }
+
 };
 
 var SceneB = new Phaser.Class({
@@ -59,7 +70,7 @@ var SceneB = new Phaser.Class({
         this.load.image('grass4-4', 'assets/sprites/grass4-4.png');
         this.load.image('backstars', 'assets/sprites/starslessbright2.png');
         this.load.image('platformer_tiles', 'assets/tilemaps/grass.png');
-        this.load.image('Tilesettest', 'assets/tilemaps/Tilesettest.png');
+        this.load.image('miningTiles', 'assets/tilemaps/miningTiles.png');
         this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
@@ -111,6 +122,8 @@ var SceneB = new Phaser.Class({
         });
 
         player.anims.play('blink', true);
+        inventory = new Inventory({'dirt':1});
+        console.log(inventory);
 
         // platforms = this.physics.add.staticGroup();
         // platforms.create(916, 310, 'grass').setScale(2).refreshBody();
@@ -118,7 +131,7 @@ var SceneB = new Phaser.Class({
 
         map = this.make.tilemap({key: 'map'});
         var tileset = map.addTilesetImage('platformer_tiles');
-        var tileset2 = map.addTilesetImage('Tilesettest');
+        var tileset2 = map.addTilesetImage('miningTiles');
         layer = map.createDynamicLayer('world1', tileset, 0, 0);
         layer2 = map.createDynamicLayer('mining', tileset2, 0, 0);
 
@@ -130,6 +143,14 @@ var SceneB = new Phaser.Class({
         // layer2.setTileIndexCallback(26, mine, this);
 
         // filterTiles sur un layer pour permettre de mettre le materiau
+
+        var toto = function (tile) {
+            if (tile.index === 28) {
+                tile.material = 'metal';
+            }
+        }
+
+        layer2.forEachTile(toto, this)
 
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
