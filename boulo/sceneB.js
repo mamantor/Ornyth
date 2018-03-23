@@ -29,7 +29,7 @@ function hitMe(sprite, tile) {
 
 function mine(sprite, tile) {
     // tile.index = 21;
-    console.log(tile);
+    // console.log(tile);
     if (tile.miningPercentage){
         tile.miningPercentage += 1;
     } else {
@@ -46,7 +46,7 @@ function mine(sprite, tile) {
         } else {
             inventory.objects[material] = 5;
         }
-        console.log(inventory);
+        // console.log(inventory);
         tile.visible = false;
         tile.destroy();
         tile.resetCollision();
@@ -154,6 +154,24 @@ var SceneB = new Phaser.Class({
 
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
+
+
+        this.input.keyboard.on('keydown_I', function () {
+            
+                // this.input.stopPropagation();
+                // this.input.keyboard.stopListeners();
+                this.input.stopPropagation();
+                // initInventory();
+                if (this.scene.isActive()) {
+                    this.scene.switch('sceneA');
+                }
+                this.input.stopPropagation();
+
+                // this.input.keyboard.stopListeners();
+                console.log(this.scene);
+            
+            }, this);
+
 
         cursors = this.input.keyboard.createCursorKeys();
     },
