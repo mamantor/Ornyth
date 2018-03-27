@@ -16,5 +16,10 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
     newPlayer.setCollideWorldBounds(true);
     newPlayer.body.setGravityY(300);
 
+    for (flame of flames) {
+           flame.destroy();
+            
+        }
+
     return newPlayer;
 };

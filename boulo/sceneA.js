@@ -18,6 +18,7 @@ var SceneA = new Phaser.Class({
 
         preload: function () {
             this.load.image('inventoryCase', 'assets/tilemaps/inventoryCase.png');
+            this.load.image('miningTiles', 'assets/tilemaps/miningTiles.png');
             this.load.tilemapTiledJSON('inventoryMap', 'tilemaps/inventory.json');
 
         },
@@ -26,8 +27,11 @@ var SceneA = new Phaser.Class({
             },
 
         create: function () {
+            console.log('create sceneA');
+
             inventoryMap = this.make.tilemap({key: 'inventoryMap'});
-            var tileset55 = inventoryMap.addTilesetImage('inventoryCase');
+            var tileset55 = inventoryMap.addTilesetImage('miningTiles');
+
             inventoryLayer = inventoryMap.createDynamicLayer('inventoryLayer', tileset55, 0, 0);
 
             initInventory();

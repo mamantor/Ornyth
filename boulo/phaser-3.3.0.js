@@ -30541,7 +30541,6 @@ var Systems = new Class({
 
         this.settings.active = true;
         this.settings.visible = true;
-
         this.events.emit('start', this);
     },
 

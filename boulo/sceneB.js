@@ -27,7 +27,7 @@ function hitMe(sprite, tile) {
         
     };
 
-function mine(sprite, tile) {
+function mine(sprite, tile, ctx) {
     // tile.index = 21;
     // console.log(tile);
     if (tile.miningPercentage){
@@ -50,6 +50,8 @@ function mine(sprite, tile) {
         tile.visible = false;
         tile.destroy();
         tile.resetCollision();
+        ctx.scene.manager.getScene('PopupInventory').events.emit('updateInventory', this);
+
     }
 
 };
@@ -175,16 +177,37 @@ var SceneB = new Phaser.Class({
             
             // this.input.stopPropagation();
             // this.input.keyboard.stopListeners();
-            this.input.stopPropagation();
+            // this.input.stopPropagation();
             // initInventory();
             if (this.scene.isActive()) {
                 // this.scene.bringToTop('PopupInventory');
                 var popupInventry = this.scene.manager.getScene('PopupInventory');
-                popupInventry.sys.setActive(true);
-                popupInventry.sys.setVisible(true);
-                popupInventry.scene.bringToTop();
+                /*popupInventry.sys.setActive(true);
+                popupInventry.sys.setVisible(true);*/
+                //popupInventry.sys.bringToTop();
                 // this.scene.bringToTop('PopupInventory');
+                if (popupInventry.scene.isActive()) {
+                    popupInventry.scene.bringToTop();
+                    popupInventry.events.emit('updateInventory', this);
 
+                } else {
+                    popupInventry.scene.start();
+                }
+
+                var crafter = this.scene.manager.getScene('Crafter');
+
+                /*console.log(crafter.sys);
+                console.log(crafter);
+                console.log(this.scene.manager);*/
+                /*crafter.sys.setActive(true);
+                crafter.sys.setVisible(true);;
+                crafter.sys.bringToTop();*/
+                // console.log(crafter.scene.isActive());
+                if (crafter.scene.isActive()) {
+                    crafter.scene.bringToTop();
+                } else {
+                    crafter.scene.start();
+                }
 
                 // this.scene.manager.scenes[2].scene.setVisible();
                 // Phaser.Scenes.SceneManager().getScene('PopupInventory');
@@ -221,7 +244,7 @@ var SceneB = new Phaser.Class({
             // console.log(player);
             if (player.body.blocked.left){
                 // console.log(layer2.getTileAt(player.x-5, player.y, true));
-                mine(player, layer2.getTileAtWorldXY(player.x - 5, player.y, true));
+                mine(player, layer2.getTileAtWorldXY(player.x - 5, player.y, true), this);
 
             }
             // checkCollision + GetTileAt + offset + appeler mine() avec la tile
@@ -235,7 +258,7 @@ var SceneB = new Phaser.Class({
              if (player.body.blocked.right){
                 // console.log(layer2.getTileAt(14, 6, true));
                 // console.log('yoop', layer2.getTileAtWorldXY(player.x + 5, player.y, true));
-                mine(player, layer2.getTileAtWorldXY(player.x + 5, player.y, true));
+                mine(player, layer2.getTileAtWorldXY(player.x + 5, player.y, true), this);
             }
 
         } else {
