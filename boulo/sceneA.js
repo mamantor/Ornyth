@@ -2,17 +2,12 @@ var inventoryMap;
 var inventoryLayer;
 
 function initInventory() {
-    console.log(inventory);
     for (matos in inventory.objects){
-        console.log(matos);
         var tileToFill = inventoryLayer.findTile((tile) => {
-            if (!tile.isFilled && tile.index != -1) {
+            if (tile.isFilled !== true && tile.index != -1) {
                 return true;
             }
         }, this);
-
-        console.log(tileToFill);
-
         tileToFill.isFilled = true;
         tileToFill.index = -1;
     }
@@ -36,18 +31,26 @@ var SceneA = new Phaser.Class({
             inventoryLayer = inventoryMap.createDynamicLayer('inventoryLayer', tileset55, 0, 0);
 
             initInventory();
+            this.events.on('wake', initInventory, this);
 
             this.input.keyboard.on('keydown_ESC', function () {
             
                 this.input.stopPropagation();
 
                 if (this.scene.isActive()) {
+                    inventoryLayer.forEachTile((tile) => {
+                        if (tile.isFilled) {
+                            tile.isFilled = false;
+                            tile.index = 1;
+                        }
+
+                    }, this)
                     this.scene.switch('sceneB');
                 }
                 this.input.stopPropagation();
 
             
             }, this);
-        }
+        },
 
     });

@@ -58,7 +58,7 @@ var SceneB = new Phaser.Class({
     Extends: Phaser.Scene,
 
     initialize: function SceneB (){
-        Phaser.Scene.call(this, { key: 'sceneB' });
+        Phaser.Scene.call(this, { key: 'sceneB', active : true});
     },
 
     preload: function ()
@@ -123,7 +123,6 @@ var SceneB = new Phaser.Class({
 
         player.anims.play('blink', true);
         inventory = new Inventory({'dirt':1});
-        console.log(inventory);
 
         // platforms = this.physics.add.staticGroup();
         // platforms.create(916, 310, 'grass').setScale(2).refreshBody();
@@ -158,19 +157,44 @@ var SceneB = new Phaser.Class({
 
         this.input.keyboard.on('keydown_I', function () {
             
-                // this.input.stopPropagation();
-                // this.input.keyboard.stopListeners();
-                this.input.stopPropagation();
-                // initInventory();
-                if (this.scene.isActive()) {
-                    this.scene.switch('sceneA');
-                }
-                this.input.stopPropagation();
+            // this.input.stopPropagation();
+            // this.input.keyboard.stopListeners();
+            this.input.stopPropagation();
+            // initInventory();
+            if (this.scene.isActive()) {
+                this.scene.bringToTop('sceneA');
+                this.scene.switch('sceneA');
+            }
+            this.input.stopPropagation();
 
-                // this.input.keyboard.stopListeners();
-                console.log(this.scene);
+            // this.input.keyboard.stopListeners();
+        
+        }, this);
+
+        this.input.keyboard.on('keydown_P', function () {
             
-            }, this);
+            // this.input.stopPropagation();
+            // this.input.keyboard.stopListeners();
+            this.input.stopPropagation();
+            // initInventory();
+            if (this.scene.isActive()) {
+                // this.scene.bringToTop('PopupInventory');
+                var popupInventry = this.scene.manager.getScene('PopupInventory');
+                popupInventry.sys.setActive(true);
+                popupInventry.sys.setVisible(true);
+                popupInventry.scene.bringToTop();
+                // this.scene.bringToTop('PopupInventory');
+
+
+                // this.scene.manager.scenes[2].scene.setVisible();
+                // Phaser.Scenes.SceneManager().getScene('PopupInventory');
+                // console.log(this.scene.manager.getScene('PopupInventory'));
+            }
+            this.input.stopPropagation();
+
+            // this.input.keyboard.stopListeners();
+        
+        }, this);
 
 
         cursors = this.input.keyboard.createCursorKeys();
