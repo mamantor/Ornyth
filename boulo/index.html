@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="phaser.js"></script>
+    <script src="phaser-3.3.0.js"></script>
     <script src="inventory.js"></script>
     <script src="tonioUtils.js"></script>
     <script src="sceneB.js"></script>
     <script src="sceneA.js"></script>
     <script src="popupInventory.js"></script>
-    
+
 </head>
 <body>
 
@@ -24,7 +24,7 @@ var config = {
             debug: true
         }
     },
-    scene: [SceneB, SceneA, PopupInventory]
+    scene: [PopupInventory, SceneB, SceneA]
 };
 var game = new Phaser.Game(config);
 

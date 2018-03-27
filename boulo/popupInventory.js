@@ -22,11 +22,10 @@ var PopupInventory = new Phaser.Class({
 
         },
         initialize: function PopupInventory (){
-                Phaser.Scene.call(this, { key: 'PopupInventory', active : true});
+                Phaser.Scene.call(this, { key: 'PopupInventory', active : true, visible: false});
             },
 
         create: function () {
-            console.log(this);
             inventoryMap = this.make.tilemap({key: 'popupInventoryMap'});
             var tileset56 = inventoryMap.addTilesetImage('inventoryCase');
             inventoryLayer = inventoryMap.createDynamicLayer('popupInventory', tileset56 , 0 , 0);
@@ -35,17 +34,17 @@ var PopupInventory = new Phaser.Class({
             // this.events.on('wake', initInventory, this);
 
             var _this = this;
-            console.log(this.scene);
 
             this.input.on('pointerdown', function (event) {
                 // console.log(_this.scene);
-                // _this.input.stopPropagation();
+                _this.input.stopPropagation();
 
-                _this.scene.setActive(true);
-                _this.scene.setVisible(true);
+                var sceneB = _this.scene.manager.getScene('sceneB');
+                // sceneB.sys.setActive(true);
+                // sceneB.sys.setVisible(true);
+                sceneB.scene.bringToTop();
 
                 // _this.scene.bringToTop();
-                console.log(_this.scene);
 
 
             });

@@ -53175,6 +53175,8 @@ var SceneManager = new Class({
      */
     bringToTop: function (key)
     {
+        console.log('bringtotop manager');
+        console.log(this)
         if (this._processing)
         {
             this._queue.push({ op: 'bringToTop', keyA: key, keyB: null });
@@ -53187,8 +53189,12 @@ var SceneManager = new Class({
             {
                 var scene = this.getScene(key);
 
+                // console.log(this.scenes)
+
                 this.scenes.splice(index, 1);
                 this.scenes.push(scene);
+                // console.log(this.scenes)
+
             }
         }
 
@@ -119530,6 +119536,7 @@ var ScenePlugin = new Class({
      */
     bringToTop: function (key)
     {
+        console.log(this);
         if (key === undefined) { key = this.key; }
 
         this.manager.bringToTop(key);
