@@ -1,8 +1,15 @@
 var crafterMap;
 var crafterLayer;
+var craftingMaterialArray = [];
 
 function toto () {
-    console.log('toto');
+    craftingMaterialArray = [];
+    crafterLayer.forEachTile((tile) => {
+        if (tile.isFilled && tile.index !== -1) {
+            craftingMaterialArray.push(tile.material);
+        }
+    }, this);
+    console.log(craftingMaterialArray);
 }
 
 var Crafter = new Phaser.Class({

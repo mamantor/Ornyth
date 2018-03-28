@@ -1,52 +1,46 @@
 var popupInventoryMap;
 var popupInventoryLayer;
 
-// function initInventory() {
-//     for (matos in inventory.objects){
-//         var tileToFill = inventoryLayer.findTile((tile) => {
-//             if (tile.isFilled !== true && tile.index != -1) {
-//                 return true;
-//             }
-//         }, this);
-//         tileToFill.isFilled = true;
-//         tileToFill.index = -1;
-//     }
-// }
-
 function initPopupInventory() {
         
-
+    let tileToFill;
 
     let textureIndex;
     const ctx = game.scene.getScene("PopupInventory");
-    const blocs = ctx.add.staticGroup();
-    const titi = blocs.create(107, 136, 'bloc');
-    console.log(titi);
-
     popupInventoryLayer.forEachTile((tile) => {
                         if (tile.isFilled) {
                             tile.isFilled = false;
                             tile.index = 1;
                         }
-
     }, this);
+
     for (matos in inventory.objects){
+
         textureIndex = materialMap[matos];
-        console.log(textureIndex);
-        var tileToFill = popupInventoryLayer.findTile((tile) => {
-            if (tile.isFilled !== true && tile.index != -1) {
+
+        tileToFill = popupInventoryLayer.findTile((tile) => {
+            if (tile.material === matos) {
+                tile.isFilled = true;
                 return true;
             }
         }, this);
-        tileToFill.material = matos;
-        console.log(tileToFill)
-        const newSprite = ctx.add.sprite(tileToFill.pixelX + tileToFill.width/2,tileToFill.pixelY +tileToFill.height/2,'material',textureIndex).setInteractive();
+
+        console.log(tileToFill);
+
+        if (!tileToFill) {
+            var newtileToFill = popupInventoryLayer.findTile((tile) => {
+                if (tile.isFilled !== true && tile.index != -1) {
+                    return true;
+                }
+            }, this);
+            newtileToFill.material = matos;
+            const newSprite = ctx.add.sprite(newtileToFill.pixelX + newtileToFill.width/2,newtileToFill.pixelY +newtileToFill.height/2,'material',textureIndex).setInteractive();
+            newSprite.material = matos;
+            ctx.input.setDraggable(newSprite);
+            newtileToFill.isFilled = true;
+            newtileToFill.index = 1;
+        }
         
-        ctx.input.setDraggable(newSprite);
-        console.log(game.scene);
-        console.log(this);
-        tileToFill.isFilled = true;
-        tileToFill.index = 1;
     }
 }
 
@@ -68,18 +62,18 @@ var PopupInventory = new Phaser.Class({
             inventoryMap = this.make.tilemap({key: 'popupInventoryMap'});
             var tileset56 = inventoryMap.addTilesetImage('inventoryCase');
             popupInventoryLayer = inventoryMap.createDynamicLayer('popupInventory', tileset56 , 0 , 0);
-            // initPopupInventory();
             initPopupInventory();
-
-            // initInventory();
-            // this.events.on('wake', initInventory, this);
 
             var _this = this;
 
             this.events.on('updateInventory', initPopupInventory, this);
             this.input.on('dragstart', function (pointer, gameObject) {
-                const leftTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y);
+                let leftTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y);
                 if (leftTile) {
+                    leftTile.isFilled = false;
+                    leftTile.material = null;
+                } else {
+                    leftTile = crafterLayer.getTileAtWorldXY(pointer.x, pointer.y);
                     leftTile.isFilled = false;
                 }
 
@@ -93,24 +87,35 @@ var PopupInventory = new Phaser.Class({
 
             this.input.on('dragend', function (pointer, gameObject) {
 
+                let tileAlreadySameMaterial = false;
+
                 const dropTile = crafterLayer.getTileAtWorldXY(pointer.x - 5, pointer.y, true);
-                if (dropTile.index !== -1) {
+                if (dropTile.index === 3 && !dropTile.isFilled) {
+                    dropTile.isFilled = true;
+                    dropTile.material = gameObject.material;
                     gameObject.x = dropTile.pixelX + dropTile.width/2;
                     gameObject.y = dropTile.pixelY +dropTile.height/2;
-                    /*const crafter = this.scene.manager.getScene('Crafter');
-                    crafter.events.emit('toto', this);*/
+                    game.scene.getScene('Crafter').events.emit('toto', this);;
                 } else {
                     var rollbackTile = popupInventoryLayer.findTile((tile) => {
-                        if (tile.material !== true && tile.index != -1) {
+                        if (tile.material === gameObject.material) {
+                            tileAlreadySameMaterial = true;
                             return true;
                         }
                         if (tile.isFilled !== true && tile.index != -1) {
                             return true;
                         }
                     }, this);
-                    gameObject.x = rollbackTile.pixelX + rollbackTile.width/2;
-                    gameObject.y = rollbackTile.pixelY +rollbackTile.height/2;
-                    dropTile.isFilled = true;
+                    if (!tileAlreadySameMaterial) {
+                        gameObject.x = rollbackTile.pixelX + rollbackTile.width/2;
+                        gameObject.y = rollbackTile.pixelY +rollbackTile.height/2;
+                        dropTile.isFilled = true;
+                    } else {
+                        gameObject.destroy();
+                    }
+
+                    tileAlreadySameMaterial = false;
+                    
 
                 }
             });
