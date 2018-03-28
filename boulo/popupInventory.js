@@ -97,6 +97,7 @@ var PopupInventory = new Phaser.Class({
                     gameObject.y = dropTile.pixelY +dropTile.height/2;
                     game.scene.getScene('Crafter').events.emit('toto', this);;
                 } else {
+                    
                     var rollbackTile = popupInventoryLayer.findTile((tile) => {
                         if (tile.material === gameObject.material) {
                             tileAlreadySameMaterial = true;
