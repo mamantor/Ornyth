@@ -47,3 +47,29 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
 //         isForward ? haze.tilePositionX += deltaX : haze.tilePositionX -= deltaX;
 //     })
 // }
+
+// CRAFTING
+
+function readCraftMap (recipeArray) {
+    recipeArray.sort();
+    const seekId = recipeArray.toString();
+    console.log(seekId);
+
+    const foundMaterial = findMaterial(seekId);
+
+    console.log(foundMaterial);
+    return foundMaterial;
+}
+
+function findMaterial (material) {
+    const foundMaterial = materialMap.find(el => {
+        if (!el.recipe && el.id === material) {
+            return true;
+        }
+        if (el.recipe.toString() === material) {
+            return true;
+        }
+    });
+
+    return foundMaterial;
+}

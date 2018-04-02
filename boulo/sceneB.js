@@ -42,15 +42,16 @@ function mine(sprite, tile, ctx) {
     if (tile.miningPercentage > 100) {
         const material = tile.material ? tile.material : "dirt";
         if (material in inventory.objects) {
-            inventory.objects[material] += 5;
+            inventory.objects[material] += 1;
         } else {
-            inventory.objects[material] = 5;
+            inventory.objects[material] = 1;
         }
         // console.log(inventory);
         tile.visible = false;
         tile.destroy();
         tile.resetCollision();
         ctx.scene.manager.getScene('PopupInventory').events.emit('updateInventory', this);
+        console.log(inventory);
 
     }
 

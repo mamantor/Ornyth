@@ -5,7 +5,7 @@ function initPopupInventory() {
         
     let tileToFill;
 
-    let textureIndex;
+    let material;
     const ctx = game.scene.getScene("PopupInventory");
     popupInventoryLayer.forEachTile((tile) => {
                         if (tile.isFilled) {
@@ -16,7 +16,9 @@ function initPopupInventory() {
 
     for (matos in inventory.objects){
 
-        textureIndex = materialMap[matos];
+        material = findMaterial(matos);
+
+        console.log(material);
 
         tileToFill = popupInventoryLayer.findTile((tile) => {
             if (tile.material === matos) {
@@ -25,8 +27,6 @@ function initPopupInventory() {
             }
         }, this);
 
-        console.log(tileToFill);
-
         if (!tileToFill) {
             var newtileToFill = popupInventoryLayer.findTile((tile) => {
                 if (tile.isFilled !== true && tile.index != -1) {
@@ -34,7 +34,7 @@ function initPopupInventory() {
                 }
             }, this);
             newtileToFill.material = matos;
-            const newSprite = ctx.add.sprite(newtileToFill.pixelX + newtileToFill.width/2,newtileToFill.pixelY +newtileToFill.height/2,'material',textureIndex).setInteractive();
+            const newSprite = ctx.add.sprite(newtileToFill.pixelX + newtileToFill.width/2,newtileToFill.pixelY +newtileToFill.height/2,'material',material.materialSI).setInteractive();
             newSprite.material = matos;
             ctx.input.setDraggable(newSprite);
             newtileToFill.isFilled = true;
