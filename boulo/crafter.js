@@ -56,13 +56,13 @@ var Crafter = new Phaser.Class({
 
             this.events.on('toto', craft, this);
 
-            this.input.on('cleanYourTile', function (pointerX, pointerY) {
+            this.events.on('cleanYourTile', function (pointerX, pointerY) {
                 console.log(pointerX, pointerY);
                 // let leftTile = crafterLayer.getTileAtWorldXY(pointer.x, pointer.y);
                 // leftTile.isFilled = false;
                 // leftTile.material = null;
                 
-            });
+            }, this);
 
             // initInventory();
             // this.events.on('wake', initInventory, this);

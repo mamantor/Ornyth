@@ -69,8 +69,7 @@ var PopupInventory = new Phaser.Class({
                 let leftTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y);
 
                 if (leftTile) {
-                    leftTile.isFilled = false;
-                    leftTile.material = null;
+                    freeTileFromLayer(leftTile);
                 } else {
                     activeCrafterScene = getActiveDNDScene();
                     console.log(pointer.x, pointer.y);
@@ -121,22 +120,10 @@ var PopupInventory = new Phaser.Class({
             });
 
             this.input.keyboard.on('keydown_M', function (event) {
-                // console.log(_this.scene);
                 _this.input.stopPropagation();
-
-                
-
                 var sceneB = _this.scene.manager.getScene('sceneB');
-                // sceneB.sys.setActive(true);
-                // sceneB.sys.setVisible(true);
                 sceneB.scene.bringToTop();
 
-                // _this.scene.bringToTop();
-
-
             });
-
-        
         },
-
     });
