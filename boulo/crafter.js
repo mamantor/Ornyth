@@ -6,14 +6,13 @@ function craft () {
     const ctx = game.scene.getScene("Crafter");
     craftingMaterialArray = [];
     crafterLayer.forEachTile((tile) => {
-        if (tile.index !== -1) {
-            console.log(tile);
-        }
+        // if (tile.index !== -1) {
+        //     console.log(tile);
+        // }
         if (tile.isFilled && tile.index !== -1) {
             craftingMaterialArray.push(tile.material);
         }
     }, this);
-    console.log(craftingMaterialArray);
     if (craftingMaterialArray.length === 2) {
         const newMaterial = readCraftMap(craftingMaterialArray);
 
@@ -22,7 +21,6 @@ function craft () {
                 return true;
             }
         }, this);
-        console.log(newTileToFill);
         newTileToFill.material = newMaterial.name;
         const newSprite = this.add.sprite(newTileToFill.pixelX + newTileToFill.width/2,newTileToFill.pixelY +newTileToFill.height/2,'material',newMaterial.materialSI).setInteractive();
         newSprite.material = newMaterial.name;

@@ -8,17 +8,15 @@ function initPopupInventory() {
     let material;
     const ctx = game.scene.getScene("PopupInventory");
     popupInventoryLayer.forEachTile((tile) => {
-                        if (tile.isFilled) {
-                            tile.isFilled = false;
-                            tile.index = 1;
-                        }
+        if (tile.isFilled) {
+            tile.isFilled = false;
+            tile.index = 1;
+        }
     }, this);
 
     for (matos in inventory.objects){
 
         material = findMaterial(matos);
-
-        console.log(material);
 
         tileToFill = popupInventoryLayer.findTile((tile) => {
             if (tile.material === matos) {
@@ -34,7 +32,7 @@ function initPopupInventory() {
                 }
             }, this);
             newtileToFill.material = matos;
-            const newSprite = ctx.add.sprite(newtileToFill.pixelX + newtileToFill.width/2,newtileToFill.pixelY +newtileToFill.height/2,'material',material.materialSI).setInteractive();
+            const newSprite = ctx.add.sprite(popupInventoryLayer.tileToWorldX(newtileToFill.pixelX) + newtileToFill.width/2,popupInventoryLayer.tileToWorldY(newtileToFill.pixelY) +newtileToFill.height/2,'material',material.materialSI).setInteractive();
             newSprite.material = matos;
             ctx.input.setDraggable(newSprite);
             newtileToFill.isFilled = true;
@@ -61,7 +59,7 @@ var PopupInventory = new Phaser.Class({
 
             inventoryMap = this.make.tilemap({key: 'popupInventoryMap'});
             var tileset56 = inventoryMap.addTilesetImage('inventoryCase');
-            popupInventoryLayer = inventoryMap.createDynamicLayer('popupInventory', tileset56 , 0 , 0);
+            popupInventoryLayer = inventoryMap.createDynamicLayer('popupInventory', tileset56 , 300 , 100);
             initPopupInventory();
 
             var _this = this;
