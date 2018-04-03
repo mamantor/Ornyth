@@ -67,14 +67,15 @@ var PopupInventory = new Phaser.Class({
             this.events.on('updateInventory', initPopupInventory, this);
             this.input.on('dragstart', function (pointer, gameObject) {
                 let leftTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y);
+
                 if (leftTile) {
                     leftTile.isFilled = false;
                     leftTile.material = null;
                 } else {
-                    leftTile = crafterLayer.getTileAtWorldXY(pointer.x, pointer.y);
-                    leftTile.isFilled = false;
+                    activeCrafterScene = getActiveDNDScene();
+                    console.log(pointer.x, pointer.y);
+                    activeCrafterScene.events.emit('cleanYourTile',pointer.x, pointer.y);
                 }
-
             });
 
             this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
@@ -93,7 +94,7 @@ var PopupInventory = new Phaser.Class({
                     dropTile.material = gameObject.material;
                     gameObject.x = dropTile.pixelX + dropTile.width/2;
                     gameObject.y = dropTile.pixelY +dropTile.height/2;
-                    game.scene.getScene('Crafter').events.emit('toto', this);;
+                    game.scene.getScene('Crafter').events.emit('toto', this);
                 } else {
                     
                     var rollbackTile = popupInventoryLayer.findTile((tile) => {

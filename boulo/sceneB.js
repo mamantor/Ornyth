@@ -175,7 +175,7 @@ var SceneB = new Phaser.Class({
         }, this);
 
         this.input.keyboard.on('keydown_P', function () {
-            
+
             // this.input.stopPropagation();
             // this.input.keyboard.stopListeners();
             // this.input.stopPropagation();

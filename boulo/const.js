@@ -3,6 +3,8 @@
 	'metal': 1
 }*/
 
+const DND_SCENES = ["Crafter"]
+
 const materialMap = [
 	{
 		id : "dirt",

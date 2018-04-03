@@ -73,3 +73,18 @@ function findMaterial (material) {
 
     return foundMaterial;
 }
+
+// DRAAGIN, DRAAAGGING AAND DROPPING
+
+function freeTileFromLayer (tile) {
+    tile.isFilled = false;
+    tile.material = null;
+}
+
+function getActiveDNDScene() {
+    for (el of game.scene.scenes) {
+        if (el.sys.isActive && DND_SCENES.includes(el.scene.key)) {
+            return game.scene.getScene(el.scene.key);
+        }
+    }
+}
