@@ -88,6 +88,20 @@ function freeTileFromLayer (tile) {
     tile.material = null;
 }
 
+function fillTileFromLayer (tile, gameObject) {
+    const droppingLayer = tile.layer;
+    
+    tile.isFilled = true;
+    tile.material = gameObject.material;
+
+    const newX = droppingLayer.tileToWorldX(newtileToFill.pixelX) + newtileToFill.width/2;
+    const newY = popupInventoryLayer.tileToWorldY(newtileToFill.pixelY) +newtileToFill.height/2;
+
+
+    gameObject.x = tile.pixelX + tile.width/2;
+    gameObject.y = tile.pixelY +tile.height/2;
+}
+
 function getActiveDNDScene() {
     for (el of game.scene.scenes) {
         if (el.sys.isActive && DND_SCENES.includes(el.scene.key)) {
