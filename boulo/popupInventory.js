@@ -86,9 +86,17 @@ var PopupInventory = new Phaser.Class({
             this.input.on('dragend', function (pointer, gameObject) {
 
                 let tileAlreadySameMaterial = false;
+                let dropTile;
 
-                const dropTile = crafterLayer.getTileAtWorldXY(pointer.x - 5, pointer.y, true);
-                if (dropTile.index === 3 && !dropTile.isFilled) {
+                if (inventoryMap.hasTileAtWorldXY(pointer.x, pointer.y)) {
+                    dropTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
+                } else {
+                    const dropScene = getActiveDNDScene();
+                    const dropLayer = getTopLayerOfScene(dropScene);
+                    dropTile = dropLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
+                }
+
+                if (dropTile && dropTile.index === 3 && !dropTile.isFilled) {
                     dropTile.isFilled = true;
                     dropTile.material = gameObject.material;
                     gameObject.x = dropTile.pixelX + dropTile.width/2;
@@ -108,7 +116,7 @@ var PopupInventory = new Phaser.Class({
                     if (!tileAlreadySameMaterial) {
                         gameObject.x = rollbackTile.pixelX + rollbackTile.width/2;
                         gameObject.y = rollbackTile.pixelY +rollbackTile.height/2;
-                        dropTile.isFilled = true;
+                        rollbackTile.isFilled = true;
                     } else {
                         gameObject.destroy();
                     }

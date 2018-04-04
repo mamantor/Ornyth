@@ -24,6 +24,13 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
     return newPlayer;
 };
 
+function getTopLayerOfScene(scene) {
+    const layersOfScene = scene.sys.displayList.list.filter((el) => {
+        return (el.type === "DynamicTilemapLayer" || el.type === "StaticTilemapLayer")
+    });
+    return scene.sys.displayList.getTopGameObject(layersOfScene);
+}
+
 // function renderCamera (playerX, game) {
 //     if (playerX < 500) {
 //         game.cameras.main.stopFollow(player);
