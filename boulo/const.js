@@ -4,16 +4,19 @@
 }*/
 
 const DND_SCENES = ["Crafter"]
+const CRAFT_TILES_INDEXES = {
+	"Crafter" : 2
+}
 
 const materialMap = [
 	{
 		id : "dirt",
-		recipe: false,
+		recipe: [],
 		name: "dirt",
 		materialSI: 0
 	}, {
 		id : "metal",
-		recipe: false,
+		recipe: [],
 		name: "metal",
 		materialSI: 1
 	}, {

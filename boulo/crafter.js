@@ -4,29 +4,41 @@ var craftingMaterialArray = [];
 
 function craft () {
     const ctx = game.scene.getScene("Crafter");
-    craftingMaterialArray = [];
+    const craftingMaterialArray = [];
+    const ingredients = [];
     crafterLayer.forEachTile((tile) => {
-        // if (tile.index !== -1) {
-        //     console.log(tile);
-        // }
+        
         if (tile.isFilled && tile.index !== -1) {
-            craftingMaterialArray.push(tile.material);
+            craftingMaterialArray.push(tile.material.id);
+            ingredients.push(tile.material.materialSprite);
         }
     }, this);
     if (craftingMaterialArray.length === 2) {
         const newMaterial = readCraftMap(craftingMaterialArray);
 
-        const newTileToFill = crafterLayer.findTile((tile) => {
-            if (tile.index === 2) {
-                return true;
+        const newTile = craftTileForMaterial("Crafter");
+        // const newTile = tileForMaterial(newMaterial);
+         fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"));
+
+         crafterLayer.forEachTile((tile) => {
+        
+            if (tile.isFilled && tile.index === 3) {
+                tile.materialSprite.destroy();
             }
         }, this);
-        newTileToFill.material = newMaterial.name;
-        const newSprite = this.add.sprite(newTileToFill.pixelX + newTileToFill.width/2,newTileToFill.pixelY +newTileToFill.height/2,'material',newMaterial.materialSI).setInteractive();
-        newSprite.material = newMaterial.name;
-        this.input.setDraggable(newSprite);
-        newTileToFill.isFilled = true;
-        newTileToFill.index = 1;
+        // for ingredient in 
+
+        // const newTileToFill = crafterLayer.findTile((tile) => {
+        //     if (tile.index === 2) {
+        //         return true;
+        //     }
+        // }, this);
+        // newTileToFill.material = newMaterial.name;
+        // const newSprite = this.add.sprite(newTileToFill.pixelX + newTileToFill.width/2,newTileToFill.pixelY +newTileToFill.height/2,'material',newMaterial.materialSI).setInteractive();
+        // newSprite.material = newMaterial.name;
+        // this.input.setDraggable(newSprite);
+        // newTileToFill.isFilled = true;
+        // newTileToFill.index = 1;
     }
 }
 

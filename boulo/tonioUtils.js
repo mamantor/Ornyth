@@ -60,17 +60,16 @@ function getTopLayerOfScene(scene) {
 function readCraftMap (recipeArray) {
     recipeArray.sort();
     const seekId = recipeArray.toString();
-    console.log(seekId);
 
     const foundMaterial = findMaterial(seekId);
 
-    console.log(foundMaterial);
     return foundMaterial;
 }
 
 function findMaterial (material) {
     const foundMaterial = materialMap.find(el => {
-        if (!el.recipe && el.id === material) {
+        el.recipe.sort();
+        if (el.id === material) {
             return true;
         }
         if (el.recipe.toString() === material) {
@@ -81,6 +80,18 @@ function findMaterial (material) {
     return foundMaterial;
 }
 
+function craftTileForMaterial(sceneKey) {
+    const dropScene = game.scene.getScene(sceneKey);
+    const dropLayer = getTopLayerOfScene(dropScene);
+    let craftTile = dropLayer.findTile((tile) => {
+        if (tile.index === CRAFT_TILES_INDEXES[sceneKey]) {
+            return true;
+        }
+    }, this);
+
+    return craftTile;
+}
+
 // DRAAGIN, DRAAAGGING AAND DROPPING
 
 function freeTileFromLayer (tile) {
@@ -89,6 +100,7 @@ function freeTileFromLayer (tile) {
 }
 
 function fillTileFromLayer (tile, gameObject) {
+    console.log(tile);
     const droppingLayer = tile.layer;
     
     tile.isFilled = true;
@@ -100,6 +112,18 @@ function fillTileFromLayer (tile, gameObject) {
 
     gameObject.x = newX;
     gameObject.y = newY;
+}
+
+function fillTileFromMaterialID (tile, materialName, ctx) {
+    const material = findMaterial(materialName);
+    const newSprite = ctx.add.sprite(0,0,'material',material.materialSI).setInteractive();
+
+    newSprite.material = material;
+    ctx.input.setDraggable(newSprite);
+
+    fillTileFromLayer(tile, newSprite);
+    
+    tile.index = 1;
 }
 
 function getActiveDNDScene() {
@@ -115,11 +139,10 @@ function clearTile(tile) {
     tile.material = null;
 }
 
-function rollbackTileForMaterial(material) {
+function tileForMaterial(material) {
 
     let resultTile = popupInventoryLayer.findTile((tile) => {
-        if (tile.material === material) {
-            tileAlreadySameMaterial = true;
+        if (tile.material && tile.material.id === material) {
             return true;
         }
     }, this);
@@ -127,7 +150,6 @@ function rollbackTileForMaterial(material) {
     if (!resultTile) {
         resultTile = popupInventoryLayer.findTile((tile) => {
             if (tile.isFilled !== true && tile.index != -1) {
-                tileAlreadySameMaterial = true;
                 return true;
             }
         }, this);

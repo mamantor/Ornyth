@@ -50,7 +50,7 @@ function mine(sprite, tile, ctx) {
         tile.visible = false;
         tile.destroy();
         tile.resetCollision();
-        ctx.scene.manager.getScene('PopupInventory').events.emit('updateInventory', this);
+        game.scene.getScene('PopupInventory').events.emit('updateInventory',material, this);
 
     }
 
@@ -124,7 +124,7 @@ var SceneB = new Phaser.Class({
         });
 
         player.anims.play('blink', true);
-        inventory = new Inventory({'dirt':1});
+        inventory = new Inventory({'dirt':1, 'metal': 1});
 
         // platforms = this.physics.add.staticGroup();
         // platforms.create(916, 310, 'grass').setScale(2).refreshBody();
@@ -180,19 +180,6 @@ var SceneB = new Phaser.Class({
             // this.input.stopPropagation();
             // initInventory();
             if (this.scene.isActive()) {
-                // this.scene.bringToTop('PopupInventory');
-                var popupInventry = this.scene.manager.getScene('PopupInventory');
-                /*popupInventry.sys.setActive(true);
-                popupInventry.sys.setVisible(true);*/
-                //popupInventry.sys.bringToTop();
-                // this.scene.bringToTop('PopupInventory');
-                if (popupInventry.scene.isActive()) {
-                    popupInventry.scene.bringToTop();
-                    popupInventry.events.emit('updateInventory', this);
-
-                } else {
-                    popupInventry.scene.start();
-                }
 
                 var crafter = this.scene.manager.getScene('Crafter');
 
@@ -208,6 +195,22 @@ var SceneB = new Phaser.Class({
                 } else {
                     crafter.scene.start();
                 }
+
+                // this.scene.bringToTop('PopupInventory');
+                var popupInventry = this.scene.manager.getScene('PopupInventory');
+                /*popupInventry.sys.setActive(true);
+                popupInventry.sys.setVisible(true);*/
+                //popupInventry.sys.bringToTop();
+                // this.scene.bringToTop('PopupInventory');
+                if (popupInventry.scene.isActive()) {
+                    popupInventry.scene.bringToTop();
+                    // popupInventry.events.emit('updateInventory', this);
+
+                } else {
+                    popupInventry.scene.start();
+                }
+
+                
 
                 // this.scene.manager.scenes[2].scene.setVisible();
                 // Phaser.Scenes.SceneManager().getScene('PopupInventory');

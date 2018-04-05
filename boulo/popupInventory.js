@@ -15,37 +15,18 @@ function initPopupInventory() {
     }, this);
 
     for (matos in inventory.objects){
-
-        material = findMaterial(matos);
-
-        tileToFill = popupInventoryLayer.findTile((tile) => {
-            if (tile.material === matos) {
-                tile.isFilled = true;
-                return true;
-            }
-        }, this);
-
-        if (!tileToFill) {
-            var newtileToFill = popupInventoryLayer.findTile((tile) => {
-                if (tile.isFilled !== true && tile.index != -1) {
-                    return true;
-                }
-            }, this);
-            
-            const newSprite = ctx.add.sprite(popupInventoryLayer.tileToWorldX(newtileToFill.pixelX) + newtileToFill.width/2,popupInventoryLayer.tileToWorldY(newtileToFill.pixelY) +newtileToFill.height/2,'material',material.materialSI).setInteractive();
-            newSprite.material = matos;
-            newtileToFill.material = matos;
-            newtileToFill.materialSprite = newSprite;
-            ctx.input.setDraggable(newSprite);
-            newtileToFill.isFilled = true;
-            newtileToFill.index = 1;
-        }
-        
+        const newTile = tileForMaterial(matos);
+        fillTileFromMaterialID(newTile, matos, ctx);
     }
 }
 
 function updatePopupInventory (material){
-    console.log(material);
+    udpateTile = tileForMaterial(material);
+    if (udpateTile.material && udpateTile.material.id === material) {
+        // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
+    } else {
+        fillTileFromMaterialID(udpateTile, material, this);
+    }
 }
 
 var PopupInventory = new Phaser.Class({
@@ -70,9 +51,7 @@ var PopupInventory = new Phaser.Class({
 
             var _this = this;
 
-            this.events.on('updateInventory', function () {
-                console.log('toto');
-            }, this);
+            this.events.on('updateInventory', updatePopupInventory, this);
             this.input.on('dragstart', function (pointer, gameObject) {
                 let leftTile = tileUnderPointer(pointer);
                 clearTile(leftTile);
@@ -90,17 +69,25 @@ var PopupInventory = new Phaser.Class({
 
                 dropTile = tileUnderPointer(pointer);
 
+                console.log('droptile1', dropTile);
+
                 if (dropTile && dropTile.index !== -1 && !dropTile.isFilled) {
+                    console.log('dropTile', dropTile);
                     fillTileFromLayer(dropTile, gameObject);
                     const craftScene = getActiveDNDScene();
-                    craftScene.events.emit('checkRecipe', this);
+                    console.log(dropTile.layer.name === "popupInventory");
+                    if (dropTile.layer.name !== "popupInventory") {
+                        craftScene.events.emit('checkRecipe', this);
+                        
+                    }
                 } else {
                     
-                   const rollbacktile = rollbackTileForMaterial(gameObject.material);
+                   const rollbacktile = tileForMaterial(gameObject.material);
                    if (rollbacktile.material === gameObject.material) {
                        gameObject.destroy();
                        // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
                    } else {
+                       console.log('rollbacktile', rollbacktile);
                         fillTileFromLayer(rollbacktile, gameObject);
                    }
                     
