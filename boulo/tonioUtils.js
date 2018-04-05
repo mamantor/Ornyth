@@ -93,13 +93,13 @@ function fillTileFromLayer (tile, gameObject) {
     
     tile.isFilled = true;
     tile.material = gameObject.material;
+    tile.materialSprite = gameObject;
 
-    const newX = droppingLayer.tileToWorldX(newtileToFill.pixelX) + newtileToFill.width/2;
-    const newY = popupInventoryLayer.tileToWorldY(newtileToFill.pixelY) +newtileToFill.height/2;
+    const newX = droppingLayer.tilemapLayer.tileToWorldX(tile.x) + tile.width/2;
+    const newY = droppingLayer.tilemapLayer.tileToWorldY(tile.y) +tile.height/2;
 
-
-    gameObject.x = tile.pixelX + tile.width/2;
-    gameObject.y = tile.pixelY +tile.height/2;
+    gameObject.x = newX;
+    gameObject.y = newY;
 }
 
 function getActiveDNDScene() {
@@ -108,4 +108,44 @@ function getActiveDNDScene() {
             return game.scene.getScene(el.scene.key);
         }
     }
+}
+
+function clearTile(tile) {
+    tile.isFilled = false;
+    tile.material = null;
+}
+
+function rollbackTileForMaterial(material) {
+
+    let resultTile = popupInventoryLayer.findTile((tile) => {
+        if (tile.material === material) {
+            tileAlreadySameMaterial = true;
+            return true;
+        }
+    }, this);
+
+    if (!resultTile) {
+        resultTile = popupInventoryLayer.findTile((tile) => {
+            if (tile.isFilled !== true && tile.index != -1) {
+                tileAlreadySameMaterial = true;
+                return true;
+            }
+        }, this);
+    }
+
+    return resultTile;
+}
+
+function tileUnderPointer (pointer) {
+
+    let dropTile;
+
+    if (inventoryMap.hasTileAtWorldXY(pointer.x, pointer.y)) {
+        dropTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
+    } else {
+        const dropScene = getActiveDNDScene();
+        const dropLayer = getTopLayerOfScene(dropScene);
+        dropTile = dropLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
+    }
+    return dropTile;
 }

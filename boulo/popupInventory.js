@@ -31,15 +31,21 @@ function initPopupInventory() {
                     return true;
                 }
             }, this);
-            newtileToFill.material = matos;
+            
             const newSprite = ctx.add.sprite(popupInventoryLayer.tileToWorldX(newtileToFill.pixelX) + newtileToFill.width/2,popupInventoryLayer.tileToWorldY(newtileToFill.pixelY) +newtileToFill.height/2,'material',material.materialSI).setInteractive();
             newSprite.material = matos;
+            newtileToFill.material = matos;
+            newtileToFill.materialSprite = newSprite;
             ctx.input.setDraggable(newSprite);
             newtileToFill.isFilled = true;
             newtileToFill.index = 1;
         }
         
     }
+}
+
+function updatePopupInventory (material){
+    console.log(material);
 }
 
 var PopupInventory = new Phaser.Class({
@@ -64,17 +70,12 @@ var PopupInventory = new Phaser.Class({
 
             var _this = this;
 
-            this.events.on('updateInventory', initPopupInventory, this);
+            this.events.on('updateInventory', function () {
+                console.log('toto');
+            }, this);
             this.input.on('dragstart', function (pointer, gameObject) {
-                let leftTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y);
-
-                if (leftTile) {
-                    freeTileFromLayer(leftTile);
-                } else {
-                    activeCrafterScene = getActiveDNDScene();
-                    console.log(pointer.x, pointer.y);
-                    activeCrafterScene.events.emit('cleanYourTile',pointer.x, pointer.y);
-                }
+                let leftTile = tileUnderPointer(pointer);
+                clearTile(leftTile);
             });
 
             this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
@@ -85,45 +86,24 @@ var PopupInventory = new Phaser.Class({
 
             this.input.on('dragend', function (pointer, gameObject) {
 
-                let tileAlreadySameMaterial = false;
                 let dropTile;
 
-                if (inventoryMap.hasTileAtWorldXY(pointer.x, pointer.y)) {
-                    dropTile = popupInventoryLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
-                } else {
-                    const dropScene = getActiveDNDScene();
-                    const dropLayer = getTopLayerOfScene(dropScene);
-                    dropTile = dropLayer.getTileAtWorldXY(pointer.x, pointer.y, true);
-                }
+                dropTile = tileUnderPointer(pointer);
 
-                if (dropTile && dropTile.index === 3 && !dropTile.isFilled) {
-                    dropTile.isFilled = true;
-                    dropTile.material = gameObject.material;
-                    gameObject.x = dropTile.pixelX + dropTile.width/2;
-                    gameObject.y = dropTile.pixelY +dropTile.height/2;
-                    game.scene.getScene('Crafter').events.emit('toto', this);
+                if (dropTile && dropTile.index !== -1 && !dropTile.isFilled) {
+                    fillTileFromLayer(dropTile, gameObject);
+                    const craftScene = getActiveDNDScene();
+                    craftScene.events.emit('checkRecipe', this);
                 } else {
                     
-                    var rollbackTile = popupInventoryLayer.findTile((tile) => {
-                        if (tile.material === gameObject.material) {
-                            tileAlreadySameMaterial = true;
-                            return true;
-                        }
-                        if (tile.isFilled !== true && tile.index != -1) {
-                            return true;
-                        }
-                    }, this);
-                    if (!tileAlreadySameMaterial) {
-                        gameObject.x = rollbackTile.pixelX + rollbackTile.width/2;
-                        gameObject.y = rollbackTile.pixelY +rollbackTile.height/2;
-                        rollbackTile.isFilled = true;
-                    } else {
-                        gameObject.destroy();
-                    }
-
-                    tileAlreadySameMaterial = false;
+                   const rollbacktile = rollbackTileForMaterial(gameObject.material);
+                   if (rollbacktile.material === gameObject.material) {
+                       gameObject.destroy();
+                       // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
+                   } else {
+                        fillTileFromLayer(rollbacktile, gameObject);
+                   }
                     
-
                 }
             });
 

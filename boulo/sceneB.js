@@ -51,7 +51,6 @@ function mine(sprite, tile, ctx) {
         tile.destroy();
         tile.resetCollision();
         ctx.scene.manager.getScene('PopupInventory').events.emit('updateInventory', this);
-        console.log(inventory);
 
     }
 

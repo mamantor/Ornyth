@@ -46,7 +46,7 @@ var Crafter = new Phaser.Class({
 
             crafterMap = this.make.tilemap({key: 'crafterMap'});
             var tileset56 = crafterMap.addTilesetImage('inventoryCase');
-            crafterLayer = crafterMap.createDynamicLayer('crafterLayer', tileset56 , 0 , 0);
+            crafterLayer = crafterMap.createDynamicLayer('crafterLayer', tileset56 , 500 , 50);
 
             crafterLayer.forEachTile((tile) => {
                 if (tile.index !== -1){
@@ -54,7 +54,7 @@ var Crafter = new Phaser.Class({
                 }
             }, this);
 
-            this.events.on('toto', craft, this);
+            this.events.on('checkRecipe', craft, this);
 
             this.events.on('cleanYourTile', function (pointerX, pointerY) {
                 console.log(pointerX, pointerY);
