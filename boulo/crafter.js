@@ -20,12 +20,7 @@ function craft () {
         // const newTile = tileForMaterial(newMaterial);
          fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"));
 
-         crafterLayer.forEachTile((tile) => {
-        
-            if (tile.isFilled && tile.index === 3) {
-                tile.materialSprite.destroy();
-            }
-        }, this);
+         
         // for ingredient in 
 
         // const newTileToFill = crafterLayer.findTile((tile) => {
@@ -40,6 +35,21 @@ function craft () {
         // newTileToFill.isFilled = true;
         // newTileToFill.index = 1;
     }
+}
+
+function clearIngredients (material) {
+    crafterLayer.forEachTile((tile) => {
+        
+        if (tile.isFilled && tile.index === 3) {
+            tile.materialSprite.destroy();
+            inventory.objects[tile.material.id] -= 1;
+            if (inventory.objects[tile.material.id] === 0) {
+                delete inventory.objects[tile.material.id];
+            }
+            freeTileFromLayer(tile);
+        }
+    }, this);
+    inventory.objects[material.id] = inventory.objects[material.id] ? inventory.objects[material.id]+1 : 1;
 }
 
 var Crafter = new Phaser.Class({
@@ -67,6 +77,7 @@ var Crafter = new Phaser.Class({
             }, this);
 
             this.events.on('checkRecipe', craft, this);
+            this.events.on('clearIngredients', clearIngredients, this);
 
             this.events.on('cleanYourTile', function (pointerX, pointerY) {
                 console.log(pointerX, pointerY);

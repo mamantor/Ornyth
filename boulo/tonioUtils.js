@@ -89,6 +89,8 @@ function craftTileForMaterial(sceneKey) {
         }
     }, this);
 
+    console.log(craftTile);
+
     return craftTile;
 }
 
@@ -100,7 +102,6 @@ function freeTileFromLayer (tile) {
 }
 
 function fillTileFromLayer (tile, gameObject) {
-    console.log(tile);
     const droppingLayer = tile.layer;
     
     tile.isFilled = true;
@@ -122,8 +123,6 @@ function fillTileFromMaterialID (tile, materialName, ctx) {
     ctx.input.setDraggable(newSprite);
 
     fillTileFromLayer(tile, newSprite);
-    
-    tile.index = 1;
 }
 
 function getActiveDNDScene() {

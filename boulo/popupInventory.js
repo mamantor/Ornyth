@@ -26,6 +26,7 @@ function updatePopupInventory (material){
         // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
     } else {
         fillTileFromMaterialID(udpateTile, material, this);
+        inventory.material = 1;
     }
 }
 
@@ -52,8 +53,16 @@ var PopupInventory = new Phaser.Class({
             var _this = this;
 
             this.events.on('updateInventory', updatePopupInventory, this);
+
             this.input.on('dragstart', function (pointer, gameObject) {
                 let leftTile = tileUnderPointer(pointer);
+                const craftScene = getActiveDNDScene();
+                if (leftTile.layer.name !== "popupInventory") {
+                    const craftTile = craftTileForMaterial(craftScene.scene.key);
+                    if (leftTile === craftTile) {
+                        craftScene.events.emit('clearIngredients',gameObject.material, this);
+                    }
+                }
                 clearTile(leftTile);
             });
 
@@ -68,26 +77,21 @@ var PopupInventory = new Phaser.Class({
                 let dropTile;
 
                 dropTile = tileUnderPointer(pointer);
+                const craftScene = getActiveDNDScene();
+                const craftTile = craftTileForMaterial(craftScene.scene.key);
 
-                console.log('droptile1', dropTile);
 
-                if (dropTile && dropTile.index !== -1 && !dropTile.isFilled) {
-                    console.log('dropTile', dropTile);
+                if (dropTile && dropTile.index !== -1 && !dropTile.isFilled && dropTile !== craftTile) {
                     fillTileFromLayer(dropTile, gameObject);
-                    const craftScene = getActiveDNDScene();
-                    console.log(dropTile.layer.name === "popupInventory");
                     if (dropTile.layer.name !== "popupInventory") {
                         craftScene.events.emit('checkRecipe', this);
-                        
                     }
                 } else {
-                    
                    const rollbacktile = tileForMaterial(gameObject.material);
                    if (rollbacktile.material === gameObject.material) {
                        gameObject.destroy();
                        // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
                    } else {
-                       console.log('rollbacktile', rollbacktile);
                         fillTileFromLayer(rollbacktile, gameObject);
                    }
                     
