@@ -89,16 +89,51 @@ function craftTileForMaterial(sceneKey) {
         }
     }, this);
 
-    console.log(craftTile);
-
     return craftTile;
 }
 
+function getTileWorldCoords (tile) {
+    const droppingLayer = tile.layer;
+    const newX = droppingLayer.tilemapLayer.tileToWorldX(tile.x) + tile.width/2;
+    const newY = droppingLayer.tilemapLayer.tileToWorldY(tile.y) +tile.height/2;
+
+    return {'x': newX, 'y': newY};
+}
+
+function fillTileWithMaterialText(tile, material, ctx) {
+    
+    const newCoords = getTileWorldCoords(tile);
+    return ctx.add.text(newCoords.x, newCoords.y, inventory.objects[material], { color: '#00ff00', align: 'left' });
+}
+
+function updateTileText(tile, ctx) {
+    tile.materialSprite.countText.destroy();
+    const droppingLayer = tile.layer;
+    const newX = droppingLayer.tilemapLayer.tileToWorldX(tile.x) + tile.width/2;
+    const newY = droppingLayer.tilemapLayer.tileToWorldY(tile.y) +tile.height/2;
+    tile.materialSprite.countText = ctx.add.text(newX, newY, inventory.objects[tile.material.id], { color: '#00ff00', align: 'left' });
+} 
+
 // DRAAGIN, DRAAAGGING AAND DROPPING
+
+function destroyMaterialSprite(materialSprite) {
+    materialSprite.countText.destroy();
+    materialSprite.destroy();
+}
 
 function freeTileFromLayer (tile) {
     tile.isFilled = false;
     tile.material = null;
+}
+
+function materialSpritePosition(gameObject,  newX, newY) {
+    gameObject.x = newX;
+    gameObject.y = newY;
+    if (gameObject.countText) {
+        gameObject.countText.x = newX;
+        gameObject.countText.y = newY;
+    }
+    
 }
 
 function fillTileFromLayer (tile, gameObject) {
@@ -111,8 +146,7 @@ function fillTileFromLayer (tile, gameObject) {
     const newX = droppingLayer.tilemapLayer.tileToWorldX(tile.x) + tile.width/2;
     const newY = droppingLayer.tilemapLayer.tileToWorldY(tile.y) +tile.height/2;
 
-    gameObject.x = newX;
-    gameObject.y = newY;
+    materialSpritePosition(gameObject, newX, newY);
 }
 
 function fillTileFromMaterialID (tile, materialName, ctx) {
@@ -121,6 +155,8 @@ function fillTileFromMaterialID (tile, materialName, ctx) {
 
     newSprite.material = material;
     ctx.input.setDraggable(newSprite);
+    const countText =  fillTileWithMaterialText(tile, matos, ctx);
+    newSprite.countText = countText;
 
     fillTileFromLayer(tile, newSprite);
 }

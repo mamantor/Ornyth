@@ -41,7 +41,7 @@ function clearIngredients (material) {
     crafterLayer.forEachTile((tile) => {
         
         if (tile.isFilled && tile.index === 3) {
-            tile.materialSprite.destroy();
+            destroyMaterialSprite(tile.materialSprite);
             inventory.objects[tile.material.id] -= 1;
             if (inventory.objects[tile.material.id] === 0) {
                 delete inventory.objects[tile.material.id];

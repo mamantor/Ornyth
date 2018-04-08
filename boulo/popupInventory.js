@@ -17,12 +17,16 @@ function initPopupInventory() {
     for (matos in inventory.objects){
         const newTile = tileForMaterial(matos);
         fillTileFromMaterialID(newTile, matos, ctx);
+        
     }
 }
 
 function updatePopupInventory (material){
-    udpateTile = tileForMaterial(material);
+    const udpateTile = tileForMaterial(material);
+    const ctx = game.scene.getScene("PopupInventory");
+    
     if (udpateTile.material && udpateTile.material.id === material) {
+        updateTileText(udpateTile, ctx);
         // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
     } else {
         fillTileFromMaterialID(udpateTile, material, this);
@@ -45,6 +49,8 @@ var PopupInventory = new Phaser.Class({
 
         create: function () {
 
+            ShiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
             inventoryMap = this.make.tilemap({key: 'popupInventoryMap'});
             var tileset56 = inventoryMap.addTilesetImage('inventoryCase');
             popupInventoryLayer = inventoryMap.createDynamicLayer('popupInventory', tileset56 , 300 , 100);
@@ -55,6 +61,11 @@ var PopupInventory = new Phaser.Class({
             this.events.on('updateInventory', updatePopupInventory, this);
 
             this.input.on('dragstart', function (pointer, gameObject) {
+                if (ShiftKey.isDown)
+                {
+                    console.log(gameObject.countText);
+                    gameObject.countText.setText(2);
+                }
                 let leftTile = tileUnderPointer(pointer);
                 const craftScene = getActiveDNDScene();
                 if (leftTile.layer.name !== "popupInventory") {
@@ -69,6 +80,8 @@ var PopupInventory = new Phaser.Class({
             this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
                 gameObject.x = dragX;
                 gameObject.y = dragY;
+                gameObject.countText.x = dragX;
+                gameObject.countText.y = dragY;
 
             });
 
