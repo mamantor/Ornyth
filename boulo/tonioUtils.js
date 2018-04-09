@@ -107,14 +107,28 @@ function fillTileWithMaterialText(tile, material, ctx) {
 }
 
 function updateTileText(tile, ctx) {
-    tile.materialSprite.countText.destroy();
-    const droppingLayer = tile.layer;
-    const newX = droppingLayer.tilemapLayer.tileToWorldX(tile.x) + tile.width/2;
-    const newY = droppingLayer.tilemapLayer.tileToWorldY(tile.y) +tile.height/2;
-    tile.materialSprite.countText = ctx.add.text(newX, newY, inventory.objects[tile.material.id], { color: '#00ff00', align: 'left' });
+    updateTileTextCount(tile, inventory.objects[tile.material.id]);
 } 
 
+function updateTileTextCount(tile, count) {
+    tile.materialSprite.countText.setText(count);
+}
+
 // DRAAGIN, DRAAAGGING AAND DROPPING
+
+function addSplitCountMaterial (gameObject, tile) {
+    const material = findMaterial(gameObject.material.id);
+    const newCoords = getTileWorldCoords
+
+    const newSprite = ctx.add.sprite(newCoords.x, 0,'material',material.materialSI).setInteractive();
+
+    newSprite.material = material;
+    ctx.input.setDraggable(newSprite);
+    const countText =  fillTileWithMaterialText(tile, matos, ctx);
+    newSprite.countText = countText;
+
+    fillTileFromLayer(tile, newSprite);
+}
 
 function destroyMaterialSprite(materialSprite) {
     materialSprite.countText.destroy();

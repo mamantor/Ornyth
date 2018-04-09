@@ -61,13 +61,19 @@ var PopupInventory = new Phaser.Class({
             this.events.on('updateInventory', updatePopupInventory, this);
 
             this.input.on('dragstart', function (pointer, gameObject) {
-                if (ShiftKey.isDown)
-                {
-                    console.log(gameObject.countText);
-                    gameObject.countText.setText(2);
-                }
                 let leftTile = tileUnderPointer(pointer);
                 const craftScene = getActiveDNDScene();
+                const ctx = game.scene.getScene("PopupInventory");
+
+                if (ShiftKey.isDown) {
+                    console.log(gameObject.countText);
+                    const initialCount = parseInt(gameObject.countText.text);
+                    const newCount = Math.floor(parseInt(gameObject.countText.text)/2);
+                    gameObject.countText.setText(newCount);
+                    fillTileFromMaterialID(leftTile,gameObject.material.id,ctx);
+                    updateTileTextCount(leftTile, (initialCount - newCount))
+                }
+                
                 if (leftTile.layer.name !== "popupInventory") {
                     const craftTile = craftTileForMaterial(craftScene.scene.key);
                     if (leftTile === craftTile) {
@@ -95,18 +101,21 @@ var PopupInventory = new Phaser.Class({
 
 
                 if (dropTile && dropTile.index !== -1 && !dropTile.isFilled && dropTile !== craftTile) {
+                    console.log('no rollback');
                     fillTileFromLayer(dropTile, gameObject);
                     if (dropTile.layer.name !== "popupInventory") {
                         craftScene.events.emit('checkRecipe', this);
                     }
                 } else {
-                   const rollbacktile = tileForMaterial(gameObject.material);
-                   if (rollbacktile.material === gameObject.material) {
-                       gameObject.destroy();
-                       // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
-                   } else {
-                        fillTileFromLayer(rollbacktile, gameObject);
-                   }
+                    const rollbacktile = tileForMaterial(gameObject.material);
+                    console.log(rollbacktile.material, gameObject.material);
+                    if (rollbacktile.material === gameObject.material) {
+                        gameObject.destroy();
+                        const updateCount = parseInt(rollbacktile.materialSprite.countText.text) + parseInt(gameObject.material.countText.text)
+                        updateTileTextCount(rollbacktile, updateCount);
+                    } else {
+                            fillTileFromLayer(rollbacktile, gameObject);
+                    }
                     
                 }
             });
