@@ -124,7 +124,7 @@ var SceneB = new Phaser.Class({
         });
 
         player.anims.play('blink', true);
-        inventory = new Inventory({'dirt':4, 'metal': 4});
+        inventory = new Inventory({'dirt':5, 'metal': 9});
 
         // platforms = this.physics.add.staticGroup();
         // platforms.create(916, 310, 'grass').setScale(2).refreshBody();

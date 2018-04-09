@@ -191,7 +191,8 @@ function clearTile(tile) {
 function tileForMaterial(material) {
 
     let resultTile = popupInventoryLayer.findTile((tile) => {
-        if (tile.material && tile.material.id === material) {
+        console.log(material, tile.material)
+        if (tile.material && tile.material.id === material.id) {
             return true;
         }
     }, this);

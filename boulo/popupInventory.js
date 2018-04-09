@@ -66,12 +66,14 @@ var PopupInventory = new Phaser.Class({
                 const ctx = game.scene.getScene("PopupInventory");
 
                 if (ShiftKey.isDown) {
-                    console.log(gameObject.countText);
                     const initialCount = parseInt(gameObject.countText.text);
                     const newCount = Math.floor(parseInt(gameObject.countText.text)/2);
                     gameObject.countText.setText(newCount);
                     fillTileFromMaterialID(leftTile,gameObject.material.id,ctx);
-                    updateTileTextCount(leftTile, (initialCount - newCount))
+                    updateTileTextCount(leftTile, (initialCount - newCount));
+
+                } else {
+                    clearTile(leftTile);
                 }
                 
                 if (leftTile.layer.name !== "popupInventory") {
@@ -80,7 +82,7 @@ var PopupInventory = new Phaser.Class({
                         craftScene.events.emit('clearIngredients',gameObject.material, this);
                     }
                 }
-                clearTile(leftTile);
+
             });
 
             this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
@@ -101,7 +103,6 @@ var PopupInventory = new Phaser.Class({
 
 
                 if (dropTile && dropTile.index !== -1 && !dropTile.isFilled && dropTile !== craftTile) {
-                    console.log('no rollback');
                     fillTileFromLayer(dropTile, gameObject);
                     if (dropTile.layer.name !== "popupInventory") {
                         craftScene.events.emit('checkRecipe', this);
@@ -110,9 +111,11 @@ var PopupInventory = new Phaser.Class({
                     const rollbacktile = tileForMaterial(gameObject.material);
                     console.log(rollbacktile.material, gameObject.material);
                     if (rollbacktile.material === gameObject.material) {
-                        gameObject.destroy();
-                        const updateCount = parseInt(rollbacktile.materialSprite.countText.text) + parseInt(gameObject.material.countText.text)
+                        
+                        
+                        const updateCount = parseInt(rollbacktile.materialSprite.countText.text) + parseInt(gameObject.countText.text)
                         updateTileTextCount(rollbacktile, updateCount);
+                        destroyMaterialSprite(gameObject);
                     } else {
                             fillTileFromLayer(rollbacktile, gameObject);
                     }
