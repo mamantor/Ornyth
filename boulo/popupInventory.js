@@ -109,7 +109,6 @@ var PopupInventory = new Phaser.Class({
                     }
                 } else {
                     const rollbacktile = tileForMaterial(gameObject.material);
-                    console.log(rollbacktile.material, gameObject.material);
                     if (rollbacktile.material === gameObject.material) {
                         
                         

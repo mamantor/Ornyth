@@ -68,11 +68,11 @@ function readCraftMap (recipeArray) {
 
 function findMaterial (material) {
     const foundMaterial = materialMap.find(el => {
-        el.recipe.sort();
+        const craftMaterialArray = Object.keys(el.recipe).sort();
         if (el.id === material) {
             return true;
         }
-        if (el.recipe.toString() === material) {
+        if (craftMaterialArray.toString() === material) {
             return true;
         }
     });
@@ -100,10 +100,11 @@ function getTileWorldCoords (tile) {
     return {'x': newX, 'y': newY};
 }
 
-function fillTileWithMaterialText(tile, material, ctx) {
-    
+function fillTileWithMaterialText(tile, material, ctx, newMaterialCount) {
     const newCoords = getTileWorldCoords(tile);
-    return ctx.add.text(newCoords.x, newCoords.y, inventory.objects[material], { color: '#00ff00', align: 'left' });
+    const count = newMaterialCount ? newMaterialCount : inventory.objects[material];
+    
+    return ctx.add.text(newCoords.x, newCoords.y, count, { color: '#00ff00', align: 'left' });
 }
 
 function updateTileText(tile, ctx) {
@@ -112,6 +113,22 @@ function updateTileText(tile, ctx) {
 
 function updateTileTextCount(tile, count) {
     tile.materialSprite.countText.setText(count);
+}
+
+function computeCraftCount(newMaterialID, craftingMaterialArray) {
+    const craftedMaterial = findMaterial(newMaterialID);
+    let result = 999;
+    let tmpRes;
+    for (availableMaterial of craftingMaterialArray) {
+        console.log(availableMaterial, craftedMaterial);
+        
+        tmpRes = Math.floor(availableMaterial.count/craftedMaterial.recipe[availableMaterial.id])
+        if (tmpRes < result) {
+            result = tmpRes;
+        }
+        console.log(tmpRes);
+    }
+    return result;
 }
 
 // DRAAGIN, DRAAAGGING AAND DROPPING
@@ -163,13 +180,13 @@ function fillTileFromLayer (tile, gameObject) {
     materialSpritePosition(gameObject, newX, newY);
 }
 
-function fillTileFromMaterialID (tile, materialName, ctx) {
+function fillTileFromMaterialID (tile, materialName, ctx, newMaterialCount) {
     const material = findMaterial(materialName);
     const newSprite = ctx.add.sprite(0,0,'material',material.materialSI).setInteractive();
 
     newSprite.material = material;
     ctx.input.setDraggable(newSprite);
-    const countText =  fillTileWithMaterialText(tile, matos, ctx);
+    const countText =  fillTileWithMaterialText(tile, material.id, ctx, newMaterialCount);
     newSprite.countText = countText;
 
     fillTileFromLayer(tile, newSprite);
@@ -191,7 +208,6 @@ function clearTile(tile) {
 function tileForMaterial(material) {
 
     let resultTile = popupInventoryLayer.findTile((tile) => {
-        console.log(material, tile.material)
         if (tile.material && tile.material.id === material.id) {
             return true;
         }

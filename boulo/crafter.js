@@ -5,20 +5,24 @@ var craftingMaterialArray = [];
 function craft () {
     const ctx = game.scene.getScene("Crafter");
     const craftingMaterialArray = [];
+    const craftingMaterialArrayIDs = [];
     const ingredients = [];
     crafterLayer.forEachTile((tile) => {
         
         if (tile.isFilled && tile.index !== -1) {
-            craftingMaterialArray.push(tile.material.id);
+            craftingMaterialArrayIDs.push(tile.material.id);
+            let materialCraftCount = parseInt(tile.materialSprite.countText.text)
+            craftingMaterialArray.push({id : tile.material.id, count: materialCraftCount});
             ingredients.push(tile.material.materialSprite);
         }
     }, this);
     if (craftingMaterialArray.length === 2) {
-        const newMaterial = readCraftMap(craftingMaterialArray);
+        const newMaterial = readCraftMap(craftingMaterialArrayIDs);
 
         const newTile = craftTileForMaterial("Crafter");
         // const newTile = tileForMaterial(newMaterial);
-         fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"));
+        const craftCount = computeCraftCount(newMaterial.id, craftingMaterialArray);
+         fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"), craftCount);
 
          
         // for ingredient in 

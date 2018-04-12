@@ -11,27 +11,27 @@ const CRAFT_TILES_INDEXES = {
 const materialMap = [
 	{
 		id : "dirt",
-		recipe: [],
+		recipe: {},
 		name: "dirt",
 		materialSI: 0
 	}, {
 		id : "metal",
-		recipe: [],
+		recipe: {},
 		name: "metal",
 		materialSI: 1
 	}, {
 		id : "dirtdirt",
-		recipe: ["dirt", "dirt"],
+		recipe: {"dirt": 1, "dirt": 1},
 		name: "compact dirt",
 		materialSI: 2
 	},{
 		id : "dirtmetal",
-		recipe: ["dirt", "metal"],
+		recipe: {"dirt":2, "metal":1},
 		name: "dirty metal",
 		materialSI: 3
 	}, {
 		id : "metalmetal",
-		recipe: ["metal", "metal"],
+		recipe: {"metal" :1, "metal":1},
 		name: "reinfoced metal",
 		materialSI: 4
 	}
