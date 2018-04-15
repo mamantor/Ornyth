@@ -9,6 +9,8 @@ var landed = false;
 var flames = [];
 var flamming = false;
 var inventory;
+var bullets= null;
+var lastFired= 0;
 
 
 function hitMe(sprite, tile) {
@@ -61,7 +63,10 @@ var SceneB = new Phaser.Class({
 
     initialize: function SceneB (){
         Phaser.Scene.call(this, { key: 'sceneB', active : true});
+        
     },
+
+    
 
     preload: function ()
     {
@@ -76,12 +81,69 @@ var SceneB = new Phaser.Class({
         this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
+        this.load.spritesheet('bullet', 'assets/sprites/bullet.png', { frameWidth: 12, frameHeight: 12 });
         this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
 
     },
 
     create: function ()
     {
+        var Bullet = new Phaser.Class({
+
+            Extends: Phaser.GameObjects.Sprite,
+    
+            initialize:
+    
+            function Bullet (scene)
+            {
+                Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bullet');
+                // const ctx = game.scene.getScene("PopupInventory");
+                // scene.physics.add.sprite(this, scene, 0, 0, 'bullet');
+                console.log(this);
+                
+                
+                this.speed = 0;
+                this.born = 0;
+            },
+    
+            fire: function (player)
+            {
+                this.setPosition(player.x, player.y);
+                this.body.setGravityY(0);
+                this.body.setGravityX(0);
+                this.initY = player.y;
+                console.log(this.initY);
+    
+                if (player.flipX)
+                {
+                    //  Facing left
+                    this.speed = -1;
+                }
+                else
+                {
+                    //  Facing right
+                    this.speed = 1;
+                }
+    
+                this.born = 0;
+            },
+    
+            update: function (time, delta)
+            {
+            this.x += this.speed * delta;
+            this.y = this.initY;
+            this.born += delta;
+    
+             if (this.born > 1000) {
+                this.setActive(false);
+                this.setVisible(false);
+             }
+            }
+    
+        });
+
+        this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
+
         bg = this.add.tileSprite(966, 138, 1932, 276, 'backstars');
         bg.fixedToCamera = true;
 
@@ -159,6 +221,7 @@ var SceneB = new Phaser.Class({
 
         this.physics.add.collider(player, layer, totoi);
         this.physics.add.collider(player, layer2);
+        this.physics.add.collider(this.bullets, layer2);
 
 
         this.input.keyboard.on('keydown_I', function () {
@@ -230,7 +293,7 @@ var SceneB = new Phaser.Class({
         cursors = this.input.keyboard.createCursorKeys();
     },
 
-    update: function () {
+    update: function (time, delta) {
         for (flame of flames) {
             if (flames.indexOf(flame) === 1) {
                 flame.x = player.x + 22;
@@ -245,6 +308,7 @@ var SceneB = new Phaser.Class({
         
         if (cursors.left.isDown) {
             player.setVelocityX(-160);
+            player.flipX = true;
             // console.log(player.body.onWall());
             // console.log('left ', player.body.blocked.left);
             // console.log('right ', player.body.blocked.right);
@@ -260,6 +324,7 @@ var SceneB = new Phaser.Class({
 
         } else if (cursors.right.isDown) {   
             player.setVelocityX(160);
+            player.flipX = false;
             // console.log('left ', player.body.blocked.left);
             // console.log('right ', player.body.blocked.right);
              if (player.body.blocked.right){
@@ -292,9 +357,17 @@ var SceneB = new Phaser.Class({
             this.scene.start('sceneA');
         }
 
-        // this.input.once('pointerdown', function () {
-        //         console.log('From SceneA to SceneB');
-        //  }, this);
 
-    }
+        if (cursors.space.isDown && time > lastFired) {
+            var bullet = this.bullets.get();
+           bullet.setActive(true);
+            bullet.setVisible(true);
+
+            if (bullet) {
+                bullet.fire(player);
+               lastFired = time + 100;
+             }
+        }
+
+            }
 });

@@ -23,6 +23,7 @@ function initPopupInventory() {
 
 function updatePopupInventory (material){
     const udpateTile = tileForMaterial(material);
+    console.log(udpateTile);
     const ctx = game.scene.getScene("PopupInventory");
     
     if (udpateTile.material && udpateTile.material.id === material) {
