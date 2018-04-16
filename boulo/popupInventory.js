@@ -73,7 +73,7 @@ var PopupInventory = new Phaser.Class({
                     updateTileTextCount(leftTile, (initialCount - newCount));
 
                 } else {
-                    clearTile(leftTile);
+                    freeTileFromLayer(leftTile);
                 }
                 
                 if (leftTile.layer.name !== "popupInventory") {

@@ -7,6 +7,7 @@ function craft () {
     const craftingMaterialArray = [];
     const craftingMaterialArrayIDs = [];
     const ingredients = [];
+    const newTile = craftTileForMaterial("Crafter");
     crafterLayer.forEachTile((tile) => {
         
         if (tile.isFilled && tile.index !== -1) {
@@ -19,25 +20,12 @@ function craft () {
     if (craftingMaterialArray.length === 2) {
         const newMaterial = readCraftMap(craftingMaterialArrayIDs);
 
-        const newTile = craftTileForMaterial("Crafter");
         // const newTile = tileForMaterial(newMaterial);
         const craftCount = computeCraftCount(newMaterial.id, craftingMaterialArray);
          fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"), craftCount);
 
-         
-        // for ingredient in 
-
-        // const newTileToFill = crafterLayer.findTile((tile) => {
-        //     if (tile.index === 2) {
-        //         return true;
-        //     }
-        // }, this);
-        // newTileToFill.material = newMaterial.name;
-        // const newSprite = this.add.sprite(newTileToFill.pixelX + newTileToFill.width/2,newTileToFill.pixelY +newTileToFill.height/2,'material',newMaterial.materialSI).setInteractive();
-        // newSprite.material = newMaterial.name;
-        // this.input.setDraggable(newSprite);
-        // newTileToFill.isFilled = true;
-        // newTileToFill.index = 1;
+    } else {
+        clearTile(newTile);
     }
 }
 

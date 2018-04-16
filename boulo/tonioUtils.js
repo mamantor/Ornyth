@@ -120,13 +120,11 @@ function computeCraftCount(newMaterialID, craftingMaterialArray) {
     let result = 999;
     let tmpRes;
     for (availableMaterial of craftingMaterialArray) {
-        console.log(availableMaterial, craftedMaterial);
         
         tmpRes = Math.floor(availableMaterial.count/craftedMaterial.recipe[availableMaterial.id])
         if (tmpRes < result) {
             result = tmpRes;
         }
-        console.log(tmpRes);
     }
     return result;
 }
@@ -203,6 +201,7 @@ function getActiveDNDScene() {
 function clearTile(tile) {
     tile.isFilled = false;
     tile.material = null;
+    destroyMaterialSprite(tile.materialSprite);
 }
 
 function tileForMaterial(material) {
