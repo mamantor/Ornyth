@@ -150,10 +150,14 @@ var SceneB = new Phaser.Class({
                 tile.material = 'metal';
             }
         }
+        
+        var totoi = function (sprite1, sprite2) {
+            // console.log(sprite1, sprite2);
+        }
 
         layer2.forEachTile(toto, this)
 
-        this.physics.add.collider(player, layer);
+        this.physics.add.collider(player, layer, totoi);
         this.physics.add.collider(player, layer2);
 
 
