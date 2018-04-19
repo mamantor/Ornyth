@@ -101,21 +101,16 @@ var SceneB = new Phaser.Class({
                 // scene.physics.add.sprite(this, scene, 0, 0, 'bullet');
                 
                 this.born = 0;
+                console.log(Phaser.GameObjects.Sprite.call);
             },
     
             fire: function (player)
             {
                 this.setPosition(player.x, player.y);
-                this.body.setGravityY(0);
-                this.body.setGravityX(0);
-                console.log(this);
-                console.log(this.body);
-    
+                this.body.allowGravity = false;
                 if (player.flipX)
                 {
                     //  Facing left
-                    console.log(this)
-                    console.log(this.body)
                     this.body.setVelocityX(100);
                 }
                 else
@@ -131,8 +126,6 @@ var SceneB = new Phaser.Class({
             update: function (time, delta)
             {
             // this.x += this.speed * delta;
-            this.body.setGravityY(0);
-            this.body.setVelocityY(0);
             this.born += delta;
     
              if (this.born > 1000) {
