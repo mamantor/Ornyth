@@ -96,13 +96,10 @@ var SceneB = new Phaser.Class({
     
             function Bullet (scene)
             {
-                Phaser.GameObjects.Sprite.call(this, scene, 0, 0, 'bullet');
+                Phaser.GameObjects.Sprite.call(this, scene, player.x, player.y, 'bullet');
                 // const ctx = game.scene.getScene("PopupInventory");
                 // scene.physics.add.sprite(this, scene, 0, 0, 'bullet');
-                console.log(this);
                 
-                
-                this.speed = 0;
                 this.born = 0;
             },
     
@@ -111,18 +108,21 @@ var SceneB = new Phaser.Class({
                 this.setPosition(player.x, player.y);
                 this.body.setGravityY(0);
                 this.body.setGravityX(0);
-                this.initY = player.y;
-                console.log(this.initY);
+                console.log(this);
+                console.log(this.body);
     
                 if (player.flipX)
                 {
                     //  Facing left
-                    this.speed = -1;
+                    console.log(this)
+                    console.log(this.body)
+                    this.body.setVelocityX(100);
                 }
                 else
                 {
                     //  Facing right
-                    this.speed = 1;
+                    this.body.setVelocityX(100);
+                    
                 }
     
                 this.born = 0;
@@ -130,8 +130,9 @@ var SceneB = new Phaser.Class({
     
             update: function (time, delta)
             {
-            this.x += this.speed * delta;
-            this.y = this.initY;
+            // this.x += this.speed * delta;
+            this.body.setGravityY(0);
+            this.body.setVelocityY(0);
             this.born += delta;
     
              if (this.born > 1000) {
@@ -202,7 +203,7 @@ var SceneB = new Phaser.Class({
         layer.setCollisionBetween(0,25);
         layer.setTileIndexCallback(20, hitMe, this);
 
-        layer2.setCollisionBetween(0,100);
+        layer2.setCollisionBetween(25,100);
         // layer2.setTileIndexCallback(26, mine, this);
 
         // filterTiles sur un layer pour permettre de mettre le materiau
@@ -214,14 +215,19 @@ var SceneB = new Phaser.Class({
         }
         
         var totoi = function (sprite1, sprite2) {
-            // console.log(sprite1, sprite2);
+            console.log('toto');
+            sprite2.destroy();
         }
 
         layer2.forEachTile(toto, this)
 
-        this.physics.add.collider(player, layer, totoi);
+        this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
-        this.physics.add.collider(this.bullets, layer2);
+        // this.physics.add.collider(this.bullets, layer2);
+        this.physics.add.collider(this.bullets, layer2, function (sprite1, sprite2) {
+            console.log('tttttttttt');
+            sprite2.destroy();
+        });
 
 
         this.input.keyboard.on('keydown_I', function () {
