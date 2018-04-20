@@ -116,6 +116,7 @@ function updateTileTextCount(tile, count) {
 }
 
 function computeCraftCount(newMaterialID, craftingMaterialArray) {
+    console.log(craftingMaterialArray);
     const craftedMaterial = findMaterial(newMaterialID);
     let result = 999;
     let tmpRes;
@@ -125,8 +126,21 @@ function computeCraftCount(newMaterialID, craftingMaterialArray) {
         if (tmpRes < result) {
             result = tmpRes;
         }
-    }
+    };
+
     return result;
+}
+
+function computeIngredientsPostcraft (sceneKey, craftingMaterialArray) {
+    const craftTile = craftTileForMaterial(sceneKey);
+    const craftMaterialID = craftTile.material;
+
+    const craftedMaterial = findMaterial(craftedMaterialID);
+    for (availableMaterial of craftingMaterialArray) {
+        availableMaterial.count -= craftedMaterial.recipe[availableMaterial.id]*craftTile.materialSprite.countText
+    }
+    console.log(craftingMaterialArray);
+    return craftingMaterialArray;
 }
 
 // DRAAGIN, DRAAAGGING AAND DROPPING

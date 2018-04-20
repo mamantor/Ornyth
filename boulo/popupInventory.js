@@ -21,16 +21,16 @@ function initPopupInventory() {
     }
 }
 
-function updatePopupInventory (material){
+function updatePopupInventory (materialID){
+    const material = findMaterial(materialID);
     const udpateTile = tileForMaterial(material);
-    console.log(udpateTile);
     const ctx = game.scene.getScene("PopupInventory");
     
-    if (udpateTile.material && udpateTile.material.id === material) {
+    if (udpateTile.material && udpateTile.material.id === material.id) {
         updateTileText(udpateTile, ctx);
         // modifier gameobject.text de la case => le mieux lier la tile avec son sprite pour afficher le nombre dans l'inventaire
     } else {
-        fillTileFromMaterialID(udpateTile, material, this);
+        fillTileFromMaterialID(udpateTile, material.id, this);
         inventory.material = 1;
     }
 }
@@ -81,6 +81,8 @@ var PopupInventory = new Phaser.Class({
                     const craftTile = craftTileForMaterial(craftScene.scene.key);
                     if (leftTile === craftTile) {
                         craftScene.events.emit('clearIngredients',gameObject.material, this);
+                    } else {
+                        craftScene.events.emit('clearCraftTile', this);
                     }
                 }
 

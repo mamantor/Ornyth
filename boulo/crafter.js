@@ -4,10 +4,11 @@ var craftingMaterialArray = [];
 
 function craft () {
     const ctx = game.scene.getScene("Crafter");
-    const craftingMaterialArray = [];
     const craftingMaterialArrayIDs = [];
     const ingredients = [];
     const newTile = craftTileForMaterial("Crafter");
+    craftingMaterialArray = [];
+    
     crafterLayer.forEachTile((tile) => {
         
         if (tile.isFilled && tile.index !== -1) {
@@ -21,15 +22,24 @@ function craft () {
         const newMaterial = readCraftMap(craftingMaterialArrayIDs);
 
         // const newTile = tileForMaterial(newMaterial);
+        console.log(craftingMaterialArray);
         const craftCount = computeCraftCount(newMaterial.id, craftingMaterialArray);
-         fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"), craftCount);
+        fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"), craftCount);
 
-    } else {
-        clearTile(newTile);
+    }
+}
+
+function clearCraftTile() {
+    const craftTile = craftTileForMaterial("Crafter");
+    if (craftTile.materialSprite) {
+        clearTile(craftTile);
     }
 }
 
 function clearIngredients (material) {
+
+    const leftIngredientsAray = computeIngredientsPostcraft("Crafter", craftingMaterialArray);
+
     crafterLayer.forEachTile((tile) => {
         
         if (tile.isFilled && tile.index === 3) {
@@ -69,6 +79,7 @@ var Crafter = new Phaser.Class({
             }, this);
 
             this.events.on('checkRecipe', craft, this);
+            this.events.on('clearCraftTile', clearCraftTile, this);
             this.events.on('clearIngredients', clearIngredients, this);
 
             this.events.on('cleanYourTile', function (pointerX, pointerY) {

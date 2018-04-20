@@ -88,53 +88,7 @@ var SceneB = new Phaser.Class({
 
     create: function ()
     {
-        var Bullet = new Phaser.Class({
-
-            Extends: Phaser.GameObjects.Sprite,
-    
-            initialize:
-    
-            function Bullet (scene)
-            {
-                Phaser.GameObjects.Sprite.call(this, scene, player.x, player.y, 'bullet');
-                // const ctx = game.scene.getScene("PopupInventory");
-                // scene.physics.add.sprite(this, scene, 0, 0, 'bullet');
-                
-                this.born = 0;
-                console.log(Phaser.GameObjects.Sprite.call);
-            },
-    
-            fire: function (player)
-            {
-                this.setPosition(player.x, player.y);
-                this.body.allowGravity = false;
-                if (player.flipX)
-                {
-                    //  Facing left
-                    this.body.setVelocityX(100);
-                }
-                else
-                {
-                    //  Facing right
-                    this.body.setVelocityX(100);
-                    
-                }
-    
-                this.born = 0;
-            },
-    
-            update: function (time, delta)
-            {
-            // this.x += this.speed * delta;
-            this.born += delta;
-    
-             if (this.born > 1000) {
-                this.setActive(false);
-                this.setVisible(false);
-             }
-            }
-    
-        });
+        
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
 
@@ -218,8 +172,7 @@ var SceneB = new Phaser.Class({
         this.physics.add.collider(player, layer2);
         // this.physics.add.collider(this.bullets, layer2);
         this.physics.add.collider(this.bullets, layer2, function (sprite1, sprite2) {
-            console.log('tttttttttt');
-            sprite2.destroy();
+            sprite1.destroy();
         });
 
 
