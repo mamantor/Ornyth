@@ -31,24 +31,32 @@ function craft () {
 function clearCraftTile() {
     const craftTile = craftTileForMaterial("Crafter");
     if (craftTile.materialSprite) {
-        clearTile(craftTile);
+        freeTileFromLayer(craftTile);
     }
 }
 
-function clearIngredients (material) {
+function clearIngredients (material, craftTile) {
 
     const leftIngredientsAray = computeIngredientsPostcraft("Crafter", craftingMaterialArray);
     let leftCount;
+    // faut faire la boucle a 'envers, iterer sur l'array et trouver la tile
     crafterLayer.forEachTile((tile) => {
-        if (tile.material && tile.index !== -1) {
+        if (tile.material && tile.index !== -1 && tile !== craftTile) {
             for (leftIngredient of leftIngredientsAray) {
                 if (leftIngredient.id === tile.material.id) {
                     leftCount = leftIngredient.count;
                 }
             }
-            tile.materialSprite.countText.setText(leftCount);
+            if (leftCount === 0 ) {
+                console.log('je clean');
+                clearTile(tile);
+            } else {
+                tile.materialSprite.countText.setText(leftCount);
+            }
         }
     }, this);
+
+    // clearCraftTile(craftTile);
 }
 
 var Crafter = new Phaser.Class({

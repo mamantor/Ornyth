@@ -66,6 +66,16 @@ var PopupInventory = new Phaser.Class({
                 const craftScene = getActiveDNDScene();
                 const ctx = game.scene.getScene("PopupInventory");
 
+                if (leftTile.layer.name !== "popupInventory") {
+                    const craftTile = craftTileForMaterial(craftScene.scene.key);
+                    if (leftTile === craftTile) {
+                        craftScene.events.emit('clearIngredients',gameObject.material, craftTile, this);
+                    } else {
+                        console.log('cleartile');
+                        craftScene.events.emit('clearCraftTile', this);
+                    }
+                }
+
                 if (ShiftKey.isDown) {
                     const initialCount = parseInt(gameObject.countText.text);
                     const newCount = Math.floor(parseInt(gameObject.countText.text)/2);
@@ -77,15 +87,7 @@ var PopupInventory = new Phaser.Class({
                     freeTileFromLayer(leftTile);
                 }
                 
-                if (leftTile.layer.name !== "popupInventory") {
-                    const craftTile = craftTileForMaterial(craftScene.scene.key);
-                    if (leftTile === craftTile) {
-                        craftScene.events.emit('clearIngredients',gameObject.material, this);
-                    } else {
-                        console.log('cleartile');
-                        craftScene.events.emit('clearCraftTile', this);
-                    }
-                }
+                
 
             });
 

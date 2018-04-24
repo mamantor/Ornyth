@@ -60,15 +60,19 @@ function getTopLayerOfScene(scene) {
 function readCraftMap (recipeArray) {
     recipeArray.sort();
     const seekId = recipeArray.toString();
-
     const foundMaterial = findMaterial(seekId);
 
     return foundMaterial;
 }
 
-function findMaterial (material) {
+function findMaterial (materialRaw) {
+    const material = materialRaw.replace(/,/g, '');
     const foundMaterial = materialMap.find(el => {
         const craftMaterialArray = Object.keys(el.recipe).sort();
+        if (craftMaterialArray.length === 1) {
+
+        }
+        
         if (el.id === material) {
             return true;
         }
@@ -118,15 +122,28 @@ function updateTileTextCount(tile, count) {
 function computeCraftCount(newMaterialID, craftingMaterialArray) {
     console.log(craftingMaterialArray);
     const craftedMaterial = findMaterial(newMaterialID);
-    let result = 999;
+    console.log(craftedMaterial.recipe);
     let tmpRes;
-    for (availableMaterial of craftingMaterialArray) {
+    let result = 999;
+    
+    if (Object.keys(craftedMaterial.recipe).length === 1){
+
+        tmpRes = craftingMaterialArray.reduce((accumulator, currentValue) => {
+           return (accumulator.count + currentValue.count);
+        } );
+        result = Math.floor(tmpRes/craftedMaterial.recipe[craftingMaterialArray[0].id]);
+
+
+    } else {
+        for (availableMaterial of craftingMaterialArray) {
         
-        tmpRes = Math.floor(availableMaterial.count/craftedMaterial.recipe[availableMaterial.id])
-        if (tmpRes < result) {
-            result = tmpRes;
-        }
-    };
+            tmpRes = Math.floor(availableMaterial.count/craftedMaterial.recipe[availableMaterial.id])
+            if (tmpRes < result) {
+                result = tmpRes;
+            }
+        };
+    }
+    
 
     return result;
 }
@@ -135,19 +152,40 @@ function computeIngredientsPostcraft (sceneKey, craftingMaterialArray) {
     
     const craftTile = craftTileForMaterial(sceneKey);
     const craftedMaterialID = craftTile.materialSprite.material.id;
-    const quantityCrafted = parseInt(craftTile.materialSprite.countText.text);
+    let quantityCrafted = parseInt(craftTile.materialSprite.countText.text);
 
 
     const craftedMaterial = findMaterial(craftedMaterialID);
-    for (availableMaterial of craftingMaterialArray) {
-        availableMaterial.count -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
-        inventory.objects[availableMaterial] -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
-        if (inventory.objects[availableMaterial] === 0) {
-            delete inventory.objects[availableMaterial];
-        }
+
+    if (Object.keys(craftedMaterial.recipe).length === 1) {
+        let leftNeededCount = craftedMaterial.recipe[craftingMaterialArray[0].id]*quantityCrafted;
         
+        for(availableMaterial of craftingMaterialArray) {
+            
+            if (leftNeededCount !== 0) {
+                const toSubstract = (availableMaterial.count < leftNeededCount) ? availableMaterial.count :  leftNeededCount;
+                availableMaterial.count -= toSubstract;
+                inventory.objects[availableMaterial] -= toSubstract;
+                if (inventory.objects[availableMaterial] === 0) {
+                    delete inventory.objects[availableMaterial];
+                }
+                leftNeededCount -= toSubstract;
+            }
+        }
+    } else {
+        for (availableMaterial of craftingMaterialArray) {
+            availableMaterial.count -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
+            inventory.objects[availableMaterial] -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
+            if (inventory.objects[availableMaterial] === 0) {
+                delete inventory.objects[availableMaterial];
+            }
+            
+        }
     }
+
     inventory.objects[craftedMaterialID] = inventory.objects[craftedMaterialID] ? inventory.objects[craftedMaterialID]+quantityCrafted : quantityCrafted;
+
+    console.log(craftingMaterialArray);
     
     return craftingMaterialArray;
 }
@@ -176,6 +214,7 @@ function destroyMaterialSprite(materialSprite) {
 function freeTileFromLayer (tile) {
     tile.isFilled = false;
     tile.material = null;
+    tile.materialSprite = null;
 }
 
 function materialSpritePosition(gameObject,  newX, newY) {

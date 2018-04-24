@@ -21,7 +21,7 @@ const materialMap = [
 		materialSI: 1
 	}, {
 		id : "dirtdirt",
-		recipe: {"dirt": 1, "dirt": 1},
+		recipe: {"dirt": 2},
 		name: "compact dirt",
 		materialSI: 2
 	},{
@@ -31,8 +31,8 @@ const materialMap = [
 		materialSI: 3
 	}, {
 		id : "metalmetal",
-		recipe: {"metal" :1, "metal":1},
-		name: "reinfoced metal",
+		recipe: {"metal": 4},
+		name: "reinforced metal",
 		materialSI: 4
 	}
 ]
