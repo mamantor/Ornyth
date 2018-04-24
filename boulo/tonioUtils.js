@@ -132,14 +132,23 @@ function computeCraftCount(newMaterialID, craftingMaterialArray) {
 }
 
 function computeIngredientsPostcraft (sceneKey, craftingMaterialArray) {
+    
     const craftTile = craftTileForMaterial(sceneKey);
-    const craftMaterialID = craftTile.material;
+    const craftedMaterialID = craftTile.materialSprite.material.id;
+    const quantityCrafted = parseInt(craftTile.materialSprite.countText.text);
+
 
     const craftedMaterial = findMaterial(craftedMaterialID);
     for (availableMaterial of craftingMaterialArray) {
-        availableMaterial.count -= craftedMaterial.recipe[availableMaterial.id]*craftTile.materialSprite.countText
+        availableMaterial.count -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
+        inventory.objects[availableMaterial] -= craftedMaterial.recipe[availableMaterial.id]*quantityCrafted;
+        if (inventory.objects[availableMaterial] === 0) {
+            delete inventory.objects[availableMaterial];
+        }
+        
     }
-    console.log(craftingMaterialArray);
+    inventory.objects[craftedMaterialID] = inventory.objects[craftedMaterialID] ? inventory.objects[craftedMaterialID]+quantityCrafted : quantityCrafted;
+    
     return craftingMaterialArray;
 }
 

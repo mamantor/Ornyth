@@ -82,6 +82,7 @@ var PopupInventory = new Phaser.Class({
                     if (leftTile === craftTile) {
                         craftScene.events.emit('clearIngredients',gameObject.material, this);
                     } else {
+                        console.log('cleartile');
                         craftScene.events.emit('clearCraftTile', this);
                     }
                 }

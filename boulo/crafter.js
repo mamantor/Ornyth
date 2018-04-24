@@ -13,7 +13,7 @@ function craft () {
         
         if (tile.isFilled && tile.index !== -1) {
             craftingMaterialArrayIDs.push(tile.material.id);
-            let materialCraftCount = parseInt(tile.materialSprite.countText.text)
+            let materialCraftCount = parseInt(tile.materialSprite.countText.text);
             craftingMaterialArray.push({id : tile.material.id, count: materialCraftCount});
             ingredients.push(tile.material.materialSprite);
         }
@@ -22,7 +22,6 @@ function craft () {
         const newMaterial = readCraftMap(craftingMaterialArrayIDs);
 
         // const newTile = tileForMaterial(newMaterial);
-        console.log(craftingMaterialArray);
         const craftCount = computeCraftCount(newMaterial.id, craftingMaterialArray);
         fillTileFromMaterialID(newTile, newMaterial.id, game.scene.getScene("PopupInventory"), craftCount);
 
@@ -39,19 +38,17 @@ function clearCraftTile() {
 function clearIngredients (material) {
 
     const leftIngredientsAray = computeIngredientsPostcraft("Crafter", craftingMaterialArray);
-
+    let leftCount;
     crafterLayer.forEachTile((tile) => {
-        
-        if (tile.isFilled && tile.index === 3) {
-            destroyMaterialSprite(tile.materialSprite);
-            inventory.objects[tile.material.id] -= 1;
-            if (inventory.objects[tile.material.id] === 0) {
-                delete inventory.objects[tile.material.id];
+        if (tile.material && tile.index !== -1) {
+            for (leftIngredient of leftIngredientsAray) {
+                if (leftIngredient.id === tile.material.id) {
+                    leftCount = leftIngredient.count;
+                }
             }
-            freeTileFromLayer(tile);
+            tile.materialSprite.countText.setText(leftCount);
         }
     }, this);
-    inventory.objects[material.id] = inventory.objects[material.id] ? inventory.objects[material.id]+1 : 1;
 }
 
 var Crafter = new Phaser.Class({
