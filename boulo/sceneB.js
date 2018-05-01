@@ -10,7 +10,9 @@ var flames = [];
 var flamming = false;
 var inventory;
 var bullets= null;
+var enemies= null;
 var lastFired= 0;
+var lastSummoned= 0;
 
 
 function hitMe(sprite, tile) {
@@ -82,15 +84,20 @@ var SceneB = new Phaser.Class({
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png', { frameWidth: 12, frameHeight: 12 });
+        this.load.spritesheet('alienworm', 'assets/sprites/alienworm.png', { frameWidth: 24, frameHeight: 12 });
+        this.load.spritesheet('alienwormEmmiter', 'assets/emmiters/alienworm.png', { frameWidth: 1, frameHeight: 1 });
         this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
 
     },
 
     create: function ()
     {
+
+        
         
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
+        this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
 
         bg = this.add.tileSprite(966, 138, 1932, 276, 'backstars');
         bg.fixedToCamera = true;
@@ -170,9 +177,16 @@ var SceneB = new Phaser.Class({
 
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
+        this.physics.add.collider(this.enemies, layer);
+        this.physics.add.collider(this.enemies, layer2);
         // this.physics.add.collider(this.bullets, layer2);
         this.physics.add.collider(this.bullets, layer2, function (sprite1, sprite2) {
             sprite1.destroy();
+        });
+
+        this.physics.add.collider(this.bullets, this.enemies, function (sprite1, sprite2) {
+            sprite1.destroy();
+            sprite2.hit(sprite1);
         });
 
 
@@ -243,6 +257,7 @@ var SceneB = new Phaser.Class({
 
 
         cursors = this.input.keyboard.createCursorKeys();
+       
     },
 
     update: function (time, delta) {
@@ -304,10 +319,10 @@ var SceneB = new Phaser.Class({
             flamming = false;
         }
 
-        if (cursors.down.isDown && player.body.touching.down)
-        {
-            this.scene.start('sceneA');
-        }
+        // if (cursors.down.isDown && player.body.touching.down)
+        // {
+        //     this.scene.start('sceneA');
+        // }
 
 
         if (cursors.space.isDown && time > lastFired) {
@@ -317,7 +332,19 @@ var SceneB = new Phaser.Class({
 
             if (bullet) {
                 bullet.fire(player);
-               lastFired = time + 100;
+               lastFired = time + 200;
+             }
+        }
+
+        if (cursors.down.isDown && time > lastSummoned) {
+            var enemy = this.enemies.get();
+            enemy.setActive(true);
+            enemy.setVisible(true);
+
+            // remove the if and make it rainbow rain !!
+            if (enemy) {
+                enemy.summon(player);
+                lastSummoned = time + 200;
              }
         }
 

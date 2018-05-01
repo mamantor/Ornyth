@@ -16,6 +16,7 @@ var Bullet = new Phaser.Class({
 
     fire: function (player)
     {
+        
         this.setPosition(player.x, player.y);
         this.body.allowGravity = false;
         if (player.flipX)
