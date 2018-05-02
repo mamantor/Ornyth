@@ -298,3 +298,12 @@ function tileUnderPointer (pointer) {
     }
     return dropTile;
 }
+
+// FIGHT an DEFEND
+
+function playerHit(collideObj) {
+    player.life -= collideObj.hitpoints;
+    if (player.life <= 0) {
+        player.gameOver();
+    }
+}

@@ -102,7 +102,7 @@ var SceneB = new Phaser.Class({
         bg = this.add.tileSprite(966, 138, 1932, 276, 'backstars');
         bg.fixedToCamera = true;
 
-        player = this.physics.add.sprite(500, 0, 'spaceship');
+        player = new Player(this, 500, 0, 'spaceship');
         player.setCollideWorldBounds(true);
         player.body.setGravityY(300);
 

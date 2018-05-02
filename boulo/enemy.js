@@ -43,7 +43,7 @@ var Enemy = new Phaser.Class({
 
         this.scene.anims.create({
             key: 'enemyMove',
-            frames: this.ctx.anims.generateFrameNumbers('alienworm', { start: 0, end: 1 }),
+            frames: this.scene.anims.generateFrameNumbers('alienworm', { start: 0, end: 1 }),
             frameRate: 15,
             repeat: -1
         });
