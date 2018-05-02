@@ -86,6 +86,7 @@ var SceneB = new Phaser.Class({
         this.load.spritesheet('bullet', 'assets/sprites/bullet.png', { frameWidth: 12, frameHeight: 12 });
         this.load.spritesheet('alienworm', 'assets/sprites/alienworm.png', { frameWidth: 24, frameHeight: 12 });
         this.load.spritesheet('alienwormEmmiter', 'assets/emmiters/alienworm.png', { frameWidth: 1, frameHeight: 1 });
+        this.load.spritesheet('thePix', 'assets/emmiters/thePix.png', { frameWidth: 1, frameHeight: 1 });
         this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
 
     },
@@ -177,6 +178,9 @@ var SceneB = new Phaser.Class({
 
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
+        this.physics.add.collider(player, this.enemies, (_, sprite2) => {
+            player.hit(sprite2);
+        });
         this.physics.add.collider(this.enemies, layer);
         this.physics.add.collider(this.enemies, layer2);
         // this.physics.add.collider(this.bullets, layer2);

@@ -10,7 +10,7 @@ var Enemy = new Phaser.Class({
         // const ctx = game.scene.getScene("PopupInventory");
         
         this.born = 0;
-        this.hitpoints = 100;
+        this.hitpoints = 1;
         this.life = 300;
         this.lastMoved = 0;
         this.ctx = scene;

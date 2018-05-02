@@ -12,15 +12,19 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
 
     ctx.physics.add.collider(newPlayer, layer);
     ctx.physics.add.collider(newPlayer, layer2);
-    newPlayer.setBounce(0.2);
+    ctx.physics.add.collider(newPlayer, layer);
+    ctx.physics.add.collider(newPlayer, ctx.enemies, function (sprite1, sprite2) {
+        sprite1.hit(sprite2);
+    });
     newPlayer.setCollideWorldBounds(true);
+    newPlayer.setBounce(0.2);
     newPlayer.body.setGravityY(300);
 
     for (flame of flames) {
-           flame.destroy();
-            
-        }
-
+        flame.destroy();
+    }
+    sprite.disableBody();
+    
     return newPlayer;
 };
 
@@ -306,4 +310,10 @@ function playerHit(collideObj) {
     if (player.life <= 0) {
         player.gameOver();
     }
+}
+
+// THE ULTIMATE PURPOSE OF VIDEO GAME
+
+function GAMEOVERYOUBITCH() {
+    console.log('you lost you bitch'); // cheap version 0.1
 }

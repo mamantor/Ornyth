@@ -17,12 +17,12 @@ var Bullet = new Phaser.Class({
     fire: function (player)
     {
         this.scene.anims.create({
-            key: 'bullet',
+            key: 'bulletFire',
             frames: this.scene.anims.generateFrameNumbers('bullet', { start: 0, end: 1 }),
             frameRate: 15,
             repeat: -1
         });
-        this.anims.play('bullet', true);
+        this.anims.play('bulletFire', true);
         
         
         this.setPosition(player.x, player.y);
