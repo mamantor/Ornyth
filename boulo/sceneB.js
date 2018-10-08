@@ -14,6 +14,7 @@ var enemies= null;
 var lastFired= 0;
 var lastSummoned= 0;
 var text;
+var textLatency=0;
 
 
 function hitMe(sprite, tile) {
@@ -62,7 +63,8 @@ function mine(sprite, tile, ctx) {
 };
 
 function textCallback(data){
-    // console.log(data)
+    console.log(data);
+
     return data
 }
 
@@ -102,7 +104,7 @@ var SceneB = new Phaser.Class({
     create: function ()
     {
         
-        text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'It\'s cold outside,\nthere\'s no kind of atmosphere', 64);
+        text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'toto', 64);
         text.setDisplayCallback(textCallback);
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
@@ -341,14 +343,9 @@ var SceneB = new Phaser.Class({
             var bullet = this.bullets.get();
             bullet.setActive(true);
             bullet.setVisible(true);
-            // var text2 = this.add.dynamicBitmapText(32, 100, 'computerFont', 'tata', 64);
-            // text2.setDisplayCallback(textCallback);
 
             text.setText("toto");
             text.setDepth(1);
-            console.log(text);
-            console.log(text.depth);
-            // console.log(text2);
 
             if (bullet) {
                 bullet.fire(player);
