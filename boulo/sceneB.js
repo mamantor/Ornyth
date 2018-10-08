@@ -13,6 +13,7 @@ var bullets= null;
 var enemies= null;
 var lastFired= 0;
 var lastSummoned= 0;
+var text;
 
 
 function hitMe(sprite, tile) {
@@ -60,6 +61,11 @@ function mine(sprite, tile, ctx) {
 
 };
 
+function textCallback(data){
+    // console.log(data)
+    return data
+}
+
 var SceneB = new Phaser.Class({
     Extends: Phaser.Scene,
 
@@ -88,14 +94,16 @@ var SceneB = new Phaser.Class({
         this.load.spritesheet('alienwormEmmiter', 'assets/emmiters/alienworm.png', { frameWidth: 1, frameHeight: 1 });
         this.load.spritesheet('thePix', 'assets/emmiters/thePix.png', { frameWidth: 1, frameHeight: 1 });
         this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
+        this.load.bitmapFont('computerFont', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
+
 
     },
 
     create: function ()
     {
-
         
-        
+        text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'It\'s cold outside,\nthere\'s no kind of atmosphere', 64);
+        text.setDisplayCallback(textCallback);
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
@@ -331,8 +339,16 @@ var SceneB = new Phaser.Class({
 
         if (cursors.space.isDown && time > lastFired) {
             var bullet = this.bullets.get();
-           bullet.setActive(true);
+            bullet.setActive(true);
             bullet.setVisible(true);
+            // var text2 = this.add.dynamicBitmapText(32, 100, 'computerFont', 'tata', 64);
+            // text2.setDisplayCallback(textCallback);
+
+            text.setText("toto");
+            text.setDepth(1);
+            console.log(text);
+            console.log(text.depth);
+            // console.log(text2);
 
             if (bullet) {
                 bullet.fire(player);
