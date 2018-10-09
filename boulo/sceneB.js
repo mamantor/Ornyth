@@ -15,6 +15,7 @@ var lastFired= 0;
 var lastSummoned= 0;
 var text;
 var textLatency=0;
+var textTween;
 
 
 function hitMe(sprite, tile) {
@@ -63,7 +64,7 @@ function mine(sprite, tile, ctx) {
 };
 
 function textCallback(data){
-    console.log(data);
+    data.scale = textTween.getValue() > data.index/ text.text.length ? 1 : 0;
 
     return data
 }
@@ -73,7 +74,6 @@ var SceneB = new Phaser.Class({
 
     initialize: function SceneB (){
         Phaser.Scene.call(this, { key: 'sceneB', active : true});
-        
     },
 
     
@@ -106,6 +106,11 @@ var SceneB = new Phaser.Class({
         
         text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'toto', 64);
         text.setDisplayCallback(textCallback);
+        textTween = this.tweens.addCounter({
+            from: 0,
+            to: 1,
+            duration: 2000
+        });
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
