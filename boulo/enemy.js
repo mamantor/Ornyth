@@ -19,7 +19,7 @@ var Enemy = new Phaser.Class({
             frame: { frames: [0,1,0,1,0], cycle: true },
             x: 64,
             y: 0,
-            quantity: 20,
+            quantity: 2000,
             speed: {min: 50, max: 100},
             angle: {min: 180, max: 360},
             scale: { start: 4, end: 3 },
@@ -29,7 +29,7 @@ var Enemy = new Phaser.Class({
             collideBottom: true,
             bounce: 10,
             
-            lifespan: 1000
+            lifespan: 10000
         });
     },
 

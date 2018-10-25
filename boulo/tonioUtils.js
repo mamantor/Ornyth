@@ -11,6 +11,9 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
     var newPlayer = ctx.physics.add.sprite(newSpriteX, newSpriteY, newSpriteKey);
 
     ctx.physics.add.collider(newPlayer, layer);
+    ctx.physics.add.overlap(newPlayer, pizzaman, (player, pizzaman) => {
+        pizzaman.showbubble();
+    });
     ctx.physics.add.collider(newPlayer, layer2);
     ctx.physics.add.collider(newPlayer, layer);
     ctx.physics.add.collider(newPlayer, ctx.enemies, function (sprite1, sprite2) {

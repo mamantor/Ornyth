@@ -65,7 +65,6 @@ function mine(sprite, tile, ctx) {
 
 function textCallback(data){
     data.scale = textTween.getValue() > data.index/ text.text.length ? 1 : 0;
-
     return data
 }
 
@@ -88,6 +87,7 @@ var SceneB = new Phaser.Class({
         this.load.image('backstars', 'assets/sprites/starslessbright2.png');
         this.load.image('platformer_tiles', 'assets/tilemaps/grass.png');
         this.load.image('miningTiles', 'assets/tilemaps/miningTiles.png');
+        this.load.image('speechBubble', 'assets/sprites/speech_bubble.png');
         this.load.spritesheet('dude', 'assets/sprites/astronaut.png', { frameWidth: 4, frameHeight: 8 });
         this.load.spritesheet('spaceship', 'assets/sprites/spaceship.png', { frameWidth: 84, frameHeight: 31 });
         this.load.spritesheet('flames', 'assets/sprites/flames.png', { frameWidth: 4, frameHeight: 20 });
@@ -98,6 +98,9 @@ var SceneB = new Phaser.Class({
         this.load.tilemapTiledJSON('map', 'tilemaps/grass3.json');
         this.load.bitmapFont('computerFont', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
 
+        this.load.spritesheet('pizzaman', 'assets/sprites/pizzaman.png', { frameWidth: 300, frameHeight: 400 });
+
+
 
     },
 
@@ -105,12 +108,16 @@ var SceneB = new Phaser.Class({
     {
         
         text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'toto', 64);
+        text.setActive(false);
+        text.setDepth(5);
         text.setDisplayCallback(textCallback);
         textTween = this.tweens.addCounter({
             from: 0,
             to: 1,
-            duration: 2000
+            duration: 3000,
+            paused: true
         });
+        console.log(textTween);
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
@@ -121,6 +128,13 @@ var SceneB = new Phaser.Class({
         player = new Player(this, 500, 0, 'spaceship');
         player.setCollideWorldBounds(true);
         player.body.setGravityY(300);
+
+        pizzaman = new Pnj(this, 600, 0, 'pizzaman', 'coucou !');
+        pizzaman.setScale(0.2);
+
+        // pizzaman.setDepth(60);
+        // pizzaman.setCollideWorldBounds(true);
+        // pizzaman.body.setGravityY(300);
 
         flames.push(this.add.sprite(player.x, player.y, 'flames'));
         flames.push(this.add.sprite(player.x, player.y, 'flames'));
@@ -191,8 +205,11 @@ var SceneB = new Phaser.Class({
 
         layer2.forEachTile(toto, this)
 
+        this.physics.add.overlap(player, pizzaman);
         this.physics.add.collider(player, layer);
         this.physics.add.collider(player, layer2);
+        this.physics.add.collider(pizzaman, layer);
+        this.physics.add.collider(pizzaman, layer2);
         this.physics.add.collider(player, this.enemies, (_, sprite2) => {
             player.hit(sprite2);
         });
@@ -291,6 +308,7 @@ var SceneB = new Phaser.Class({
             }
             
         }
+        pizzaman.body.debugBodyColor = pizzaman.body.touching.none ? 0x0099ff : 0xff9900;
         
         if (cursors.left.isDown) {
             player.setVelocityX(-160);
@@ -351,6 +369,8 @@ var SceneB = new Phaser.Class({
 
             text.setText("toto");
             text.setDepth(1);
+            console.log(text);
+            textTween.play();
 
             if (bullet) {
                 bullet.fire(player);

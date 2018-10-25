@@ -67,7 +67,7 @@ var Player = new Phaser.Class({
         
     },
     update: function () {
-        console.log('totototot');
+        // console.log('totototot');
     },
     blinkit: function (timeInvulnerability) {
         for (i=0; i <= (timeVulenrability/500); i++) {

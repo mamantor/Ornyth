@@ -1,0 +1,190 @@
+ffmpeg version n4.0.2 Copyright (c) 2000-2018 the FFmpeg developers
+  built with gcc 8.2.0 (GCC)
+  configuration: --prefix=/usr --disable-debug --disable-static --disable-stripping --enable-fontconfig --enable-gmp --enable-gnutls --enable-gpl --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxml2 --enable-libxvid --enable-nvdec --enable-nvenc --enable-omx --enable-shared --enable-version3
+  libavutil      56. 14.100 / 56. 14.100
+  libavcodec     58. 18.100 / 58. 18.100
+  libavformat    58. 12.100 / 58. 12.100
+  libavdevice    58.  3.100 / 58.  3.100
+  libavfilter     7. 16.100 /  7. 16.100
+  libswscale      5.  1.100 /  5.  1.100
+  libswresample   3.  1.100 /  3.  1.100
+  libpostproc    55.  1.100 / 55.  1.100
+Splitting the commandline.
+Reading option '-v' ... matched as option 'v' (set logging level) with argument 'debug'.
+Reading option '-nostdin' ... matched as option 'stdin' (enable or disable interaction on standard input) with argument 0.
+Reading option '-progress' ... matched as option 'progress' (write program-readable progress information) with argument '/tmp/KritaFFmpegProgress.qHDPRp'.
+Reading option '-r' ... matched as option 'r' (set frame rate (Hz value, fraction or abbreviation)) with argument '16'.
+Reading option '-start_number' ... matched as AVOption 'start_number' with argument '0'.
+Reading option '-i' ... matched as input url with argument '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame%04d.png'.
+Reading option '-y' ... matched as option 'y' (overwrite output files) with argument '1'.
+Reading option '/home/bave/Projects/Ornyth/boulo/assets/WIP/guru_anim.mkv' ... matched as output url.
+Finished splitting the commandline.
+Parsing a group of options: global .
+Applying option v (set logging level) with argument debug.
+Applying option nostdin (enable or disable interaction on standard input) with argument 0.
+Applying option progress (write program-readable progress information) with argument /tmp/KritaFFmpegProgress.qHDPRp.
+[file @ 0x55dea7dc9440] Setting default whitelist 'file,crypto'
+Applying option y (overwrite output files) with argument 1.
+Successfully parsed a group of options.
+Parsing a group of options: input url /home/bave/Projects/Ornyth/boulo/assets/WIP/frame%04d.png.
+Applying option r (set frame rate (Hz value, fraction or abbreviation)) with argument 16.
+Successfully parsed a group of options.
+Opening an input file: /home/bave/Projects/Ornyth/boulo/assets/WIP/frame%04d.png.
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0000.png' for reading
+[file @ 0x55dea7dcf280] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dd7400] Statistics: 1723 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0001.png' for reading
+[file @ 0x55dea7dcf9c0] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dcfc00] Statistics: 1723 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0002.png' for reading
+[file @ 0x55dea7dd0880] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dd0ac0] Statistics: 1723 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0003.png' for reading
+[file @ 0x55dea7dd54c0] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dd0940] Statistics: 1723 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0004.png' for reading
+[file @ 0x55dea7dd1540] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dd63c0] Statistics: 2196 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0005.png' for reading
+[file @ 0x55dea7dd1540] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dd7140] Statistics: 2196 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0006.png' for reading
+[file @ 0x55dea7de2bc0] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de2e00] Statistics: 2196 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0007.png' for reading
+[file @ 0x55dea7de3d00] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de2c80] Statistics: 2196 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0008.png' for reading
+[file @ 0x55dea7de3d00] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de4c40] Statistics: 2340 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0009.png' for reading
+[file @ 0x55dea7de5a40] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de5b40] Statistics: 2340 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0010.png' for reading
+[file @ 0x55dea7de6a40] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de6d40] Statistics: 2340 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0011.png' for reading
+[file @ 0x55dea7de6a40] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de7a00] Statistics: 2340 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0012.png' for reading
+[file @ 0x55dea7de7a00] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de6b00] Statistics: 2255 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0013.png' for reading
+[file @ 0x55dea7de8f00] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de9000] Statistics: 2255 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0014.png' for reading
+[file @ 0x55dea7de84c0] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de9b40] Statistics: 2255 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0015.png' for reading
+[file @ 0x55dea7de9b40] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7dea980] Statistics: 2255 bytes read, 0 seeks
+[image2 @ 0x55dea7dc9a80] Opening '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame0016.png' for reading
+[file @ 0x55dea7de9b40] Setting default whitelist 'file,crypto'
+[AVIOContext @ 0x55dea7de9c40] Statistics: 2255 bytes read, 0 seeks
+Input #0, image2, from '/home/bave/Projects/Ornyth/boulo/assets/WIP/frame%04d.png':
+  Duration: 00:00:00.68, start: 0.000000, bitrate: N/A
+    Stream #0:0, 17, 1/25: Video: png, 1 reference frame, rgba(pc), 100x100 [SAR 11811:11811 DAR 1:1], 0/1, 25 fps, 25 tbr, 25 tbn, 25 tbc
+Successfully opened the file.
+Parsing a group of options: output url /home/bave/Projects/Ornyth/boulo/assets/WIP/guru_anim.mkv.
+Successfully parsed a group of options.
+Opening an output file: /home/bave/Projects/Ornyth/boulo/assets/WIP/guru_anim.mkv.
+[file @ 0x55dea7ded780] Setting default whitelist 'file,crypto'
+Successfully opened the file.
+detected 4 logical cores
+Stream mapping:
+  Stream #0:0 -> #0:0 (png (native) -> h264 (libx264))
+cur_dts is invalid (this is harmless if it occurs once at the start per stream)
+    Last message repeated 4 times
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'video_size' to value '100x100'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'pix_fmt' to value '26'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'time_base' to value '1/16'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'pixel_aspect' to value '11811/11811'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'sws_param' to value 'flags=2'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] Setting 'frame_rate' to value '16/1'
+[graph 0 input from stream 0:0 @ 0x55dea7dda540] w:100 h:100 pixfmt:rgba tb:1/16 fr:16/1 sar:11811/11811 sws_param:flags=2
+[format @ 0x55dea7dcf980] Setting 'pix_fmts' to value 'yuv420p|yuvj420p|yuv422p|yuvj422p|yuv444p|yuvj444p|nv12|nv16|nv21|yuv420p10le|yuv422p10le|yuv444p10le|nv20le'
+[auto_scaler_0 @ 0x55dea7ddd080] Setting 'flags' to value 'bicubic'
+[auto_scaler_0 @ 0x55dea7ddd080] w:iw h:ih flags:'bicubic' interl:0
+[format @ 0x55dea7dcf980] auto-inserting filter 'auto_scaler_0' between the filter 'Parsed_null_0' and the filter 'format'
+[AVFilterGraph @ 0x55dea7dd5280] query_formats: 4 queried, 2 merged, 1 already done, 0 delayed
+[auto_scaler_0 @ 0x55dea7ddd080] picking yuv444p out of 11 ref:rgba alpha:1
+[auto_scaler_0 @ 0x55dea7ddd080] w:100 h:100 fmt:rgba sar:11811/11811 -> w:100 h:100 fmt:yuv444p sar:1/1 flags:0x4
+[libx264 @ 0x55dea7dd35c0] using mv_range_thread = 24
+[libx264 @ 0x55dea7dd35c0] using SAR=1/1
+[libx264 @ 0x55dea7dd35c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX
+[libx264 @ 0x55dea7dd35c0] profile High 4:4:4 Predictive, level 1.0, 4:4:4 8-bit
+[libx264 @ 0x55dea7dd35c0] 264 - core 155 r2917 0a84d98 - H.264/MPEG-4 AVC codec - Copyleft 2003-2018 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x1:0x111 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=4 threads=3 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=16 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+[matroska @ 0x55dea7dd2100] get_metadata_duration returned: 0
+Output #0, matroska, to '/home/bave/Projects/Ornyth/boulo/assets/WIP/guru_anim.mkv':
+  Metadata:
+    encoder         : Lavf58.12.100
+    Stream #0:0, 0, 1/1000: Video: h264 (libx264), 1 reference frame (H264 / 0x34363248), yuv444p, 100x100 [SAR 1:1 DAR 1:1], 0/1, q=-1--1, 16 fps, 1k tbn, 16 tbc
+    Metadata:
+      encoder         : Lavc58.18.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: -1
+Clipping frame in rate conversion by 0.000008
+cur_dts is invalid (this is harmless if it occurs once at the start per stream)
+    Last message repeated 17 times
+[out_0_0 @ 0x55dea7ddb240] EOF on sink link out_0_0:default.
+No more output streams to write to, finishing.
+[libx264 @ 0x55dea7dd35c0] frame=   0 QP=16.04 NAL=3 Slice:I Poc:0   I:49   P:0    SKIP:0    size=2522 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 9, size 3210, pts 0, dts -125, duration 63, keyframe 1
+[libx264 @ 0x55dea7dd35c0] frame=   1 QP=24.90 NAL=2 Slice:P Poc:8   I:0    P:10   SKIP:39   size=457 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 3227, size 457, pts 250, dts -63, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   2 QP=11.00 NAL=2 Slice:B Poc:4   I:0    P:7    SKIP:42   size=22 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 3691, size 22, pts 125, dts 0, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   3 QP=12.00 NAL=0 Slice:B Poc:2   I:0    P:2    SKIP:47   size=16 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 3719, size 16, pts 63, dts 63, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   4 QP=12.00 NAL=0 Slice:B Poc:6   I:0    P:4    SKIP:45   size=18 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 3741, size 18, pts 188, dts 125, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   5 QP=21.84 NAL=2 Slice:P Poc:16  I:0    P:5    SKIP:44   size=426 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 3765, size 426, pts 500, dts 188, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   6 QP=11.00 NAL=2 Slice:B Poc:12  I:0    P:5    SKIP:44   size=22 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4198, size 22, pts 375, dts 250, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   7 QP=12.00 NAL=0 Slice:B Poc:10  I:0    P:0    SKIP:49   size=12 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4226, size 12, pts 313, dts 313, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   8 QP=12.00 NAL=0 Slice:B Poc:14  I:0    P:4    SKIP:45   size=18 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4244, size 18, pts 438, dts 375, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=   9 QP=21.49 NAL=2 Slice:P Poc:24  I:0    P:4    SKIP:45   size=411 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4268, size 411, pts 750, dts 438, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  10 QP=11.00 NAL=2 Slice:B Poc:20  I:0    P:5    SKIP:44   size=22 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4686, size 22, pts 625, dts 500, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  11 QP=12.00 NAL=0 Slice:B Poc:18  I:0    P:0    SKIP:49   size=12 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4714, size 12, pts 563, dts 563, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  12 QP=12.00 NAL=0 Slice:B Poc:22  I:0    P:4    SKIP:45   size=18 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4732, size 18, pts 688, dts 625, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  13 QP=12.00 NAL=2 Slice:P Poc:32  I:0    P:0    SKIP:49   size=21 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4756, size 21, pts 1000, dts 688, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  14 QP=11.00 NAL=2 Slice:B Poc:28  I:0    P:1    SKIP:48   size=17 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4783, size 17, pts 875, dts 750, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  15 QP=12.00 NAL=0 Slice:B Poc:26  I:0    P:0    SKIP:49   size=12 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4806, size 12, pts 813, dts 813, duration 63, keyframe 0
+[libx264 @ 0x55dea7dd35c0] frame=  16 QP=12.00 NAL=0 Slice:B Poc:30  I:0    P:0    SKIP:49   size=12 bytes
+[matroska @ 0x55dea7dd2100] Writing block at offset 4824, size 12, pts 938, dts 875, duration 63, keyframe 0
+[matroska @ 0x55dea7dd2100] end duration = 1063
+[matroska @ 0x55dea7dd2100] stream 0 end duration = 1063
+frame=   17 fps=0.0 q=-1.0 Lsize=       5kB time=00:00:00.87 bitrate=  51.2kbits/s speed=  16x    
+[AVIOContext @ 0x55dea7dc9900] Statistics: 0 seeks, 1 writeouts
+video:5kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 18.599237%
+Input file #0 (/home/bave/Projects/Ornyth/boulo/assets/WIP/frame%04d.png):
+  Input stream #0:0 (video): 17 packets read (36311 bytes); 17 frames decoded; 
+  Total: 17 packets (36311 bytes) demuxed
+Output file #0 (/home/bave/Projects/Ornyth/boulo/assets/WIP/guru_anim.mkv):
+  Output stream #0:0 (video): 17 frames encoded; 17 packets muxed (4726 bytes); 
+  Total: 17 packets (4726 bytes) muxed
+17 frames successfully decoded, 0 decoding errors
+[AVIOContext @ 0x55dea7decd00] Statistics: 14 seeks, 10 writeouts
+[libx264 @ 0x55dea7dd35c0] frame I:1     Avg QP:16.04  size:  2522
+[libx264 @ 0x55dea7dd35c0] frame P:4     Avg QP:20.06  size:   329
+[libx264 @ 0x55dea7dd35c0] frame B:12    Avg QP:11.67  size:    17
+[libx264 @ 0x55dea7dd35c0] consecutive B-frames:  5.9%  0.0%  0.0% 94.1%
+[libx264 @ 0x55dea7dd35c0] mb I  I16..4: 51.0%  0.0% 49.0%
+[libx264 @ 0x55dea7dd35c0] mb P  I16..4:  0.0%  0.0%  0.0%  P16..4:  4.1%  2.0%  3.6%  0.0%  0.0%    skip:90.3%
+[libx264 @ 0x55dea7dd35c0] mb B  I16..4:  0.0%  0.0%  0.0%  B16..8:  5.4%  0.0%  0.0%  direct: 0.0%  skip:94.6%  L0:78.1% L1:21.9% BI: 0.0%
+[libx264 @ 0x55dea7dd35c0] coded y,u,v intra: 33.2% 34.7% 35.2% inter: 1.2% 0.7% 1.0%
+[libx264 @ 0x55dea7dd35c0] i16 v,h,dc,p: 80%  0% 20%  0%
+[libx264 @ 0x55dea7dd35c0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 38% 14% 27%  4%  5%  3%  3%  4%  3%
+[libx264 @ 0x55dea7dd35c0] Weighted P-Frames: Y:0.0% UV:0.0%
+[libx264 @ 0x55dea7dd35c0] ref P L0: 71.1% 10.5% 18.4%
+[libx264 @ 0x55dea7dd35c0] kb/s:30.40
