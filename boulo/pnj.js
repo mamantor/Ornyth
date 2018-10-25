@@ -1,6 +1,12 @@
+var uno=0;
+
 function textCallback2(data){
-    data.scale = textTween.getValue() > data.index/ this.dialog.length ? 1 : 0;
-    console.log('tata');
+    if (uno===0) {
+        console.log(data, this);
+        uno =1;
+    }
+    
+    data.scale = this.pizzatween.getValue() > data.index/ this.dialog.length ? this.dialogScale : 0;
     return data
 }
 
@@ -11,7 +17,7 @@ var Pnj = new Phaser.Class({
 
     initialize:
 
-    function Pnj (scene, x, y, sprite, dialog)
+    function Pnj (scene, x, y, sprite, dialog, dialogScale)
     {
         Phaser.GameObjects.Sprite.call(this, scene, x, y, sprite);
         // Phaser.Physics.Arcade.Sprite.call(this, scene, x, y, sprite);
@@ -24,11 +30,12 @@ var Pnj = new Phaser.Class({
         this.ctx = scene;
         this.dialog=dialog;
         this.speech;
+        this.dialogScale = dialogScale;
 
-        this.textTween = scene.tweens.addCounter({
+        this.pizzatween = scene.tweens.addCounter({
             from: 0,
             to: 1,
-            duration: 3000,
+            duration: 1000,
             paused: true
         });
         
@@ -41,17 +48,16 @@ var Pnj = new Phaser.Class({
     },
     
     speak: function(x,y) {
-        this.speech = this.ctx.add.dynamicBitmapText(x, y, 'computerFont', this.dialog, 5);
-        text.setDisplayCallback(textCallback2);
-        this.textTween.play();
+        this.speech = this.ctx.add.dynamicBitmapText(x, y, 'computerFont', this.dialog, 1);
+        this.speech.setDisplayCallback(textCallback2.bind(this));
+        this.pizzatween.play();
     },
     showbubble: function() {
         if (!this.speaking){
-            console.log('toto');
             this.speechBubble = this.ctx.add.sprite(this.x, this.y-60, 'speechBubble');
             this.speechBubble.setScale(0.3);
             this.speaking = true
-            this.speak(this.x-30, this.y-60)
+            this.speak(this.x-38, this.y-60)
         }
 
     },

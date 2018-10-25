@@ -129,8 +129,10 @@ var SceneB = new Phaser.Class({
         player.setCollideWorldBounds(true);
         player.body.setGravityY(300);
 
-        pizzaman = new Pnj(this, 600, 0, 'pizzaman', 'coucou !');
+        pizzaman = new Pnj(this, 600, 0, 'pizzaman', 'coucou !', 0.2);
+        pizzaman2 = new Pnj(this, 800, 0, 'pizzaman', 'aurevoir !', 0.2);
         pizzaman.setScale(0.2);
+        pizzaman2.setScale(0.2);
 
         // pizzaman.setDepth(60);
         // pizzaman.setCollideWorldBounds(true);
@@ -210,6 +212,8 @@ var SceneB = new Phaser.Class({
         this.physics.add.collider(player, layer2);
         this.physics.add.collider(pizzaman, layer);
         this.physics.add.collider(pizzaman, layer2);
+        this.physics.add.collider(pizzaman2, layer);
+        this.physics.add.collider(pizzaman2, layer2);
         this.physics.add.collider(player, this.enemies, (_, sprite2) => {
             player.hit(sprite2);
         });
