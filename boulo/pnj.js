@@ -1,12 +1,8 @@
-var uno=0;
+var uno='0';
 
 function textCallback2(data){
-    if (uno===0) {
-        console.log(data, this);
-        uno =1;
-    }
-    
-    data.scale = this.pizzatween.getValue() > data.index/ this.dialog.length ? this.dialogScale : 0;
+    console.log(uno);
+    data.scale = this.pizzatween.getValue() > data.index/this.dialog[this.dialogIndex].length ? this.dialogScale : 0;
     return data
 }
 
@@ -31,6 +27,7 @@ var Pnj = new Phaser.Class({
         this.dialog=dialog;
         this.speech;
         this.dialogScale = dialogScale;
+        this.dialogIndex=0;
 
         this.pizzatween = scene.tweens.addCounter({
             from: 0,
@@ -48,8 +45,15 @@ var Pnj = new Phaser.Class({
     },
     
     speak: function(x,y) {
-        this.speech = this.ctx.add.dynamicBitmapText(x, y, 'computerFont', this.dialog, 1);
+        this.speech = this.ctx.add.dynamicBitmapText(x, y, 'computerFont', this.dialog[this.dialogIndex], 1);
         this.speech.setDisplayCallback(textCallback2.bind(this));
+        this.pizzatween.play();
+    },
+    nextDialog: function() {
+        this.dialogIndex++;
+        this.speech.setText(this.dialog[this.dialogIndex]);
+        uno='1'
+        this.pizzatween.restart();
         this.pizzatween.play();
     },
     showbubble: function() {
@@ -62,14 +66,7 @@ var Pnj = new Phaser.Class({
 
     },
     update: function (time, delta)
-    {
-        let newVelocity = 0;
-        this.born += delta;
-        if (time - this.lastMoved > 1000) {
-            direction = Math.floor(Math.random()*10%2);
-            this.body.setVelocityX(-200 + (direction*400));
-            this.lastMoved = time;
-        }
+    {   
 
     }
 

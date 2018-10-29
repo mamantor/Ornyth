@@ -117,7 +117,6 @@ var SceneB = new Phaser.Class({
             duration: 3000,
             paused: true
         });
-        console.log(textTween);
 
         this.bullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
@@ -129,8 +128,8 @@ var SceneB = new Phaser.Class({
         player.setCollideWorldBounds(true);
         player.body.setGravityY(300);
 
-        pizzaman = new Pnj(this, 600, 0, 'pizzaman', 'coucou !', 0.2);
-        pizzaman2 = new Pnj(this, 800, 0, 'pizzaman', 'aurevoir !', 0.2);
+        pizzaman = new Pnj(this, 600, 0, 'pizzaman', ['coucou !', 'comment ca va tyyyyy'], 0.2);
+        pizzaman2 = new Pnj(this, 800, 0, 'pizzaman', ['aurevoir !', 'prout'], 0.2);
         pizzaman.setScale(0.2);
         pizzaman2.setScale(0.2);
 
@@ -383,15 +382,16 @@ var SceneB = new Phaser.Class({
         }
 
         if (cursors.down.isDown && time > lastSummoned) {
-            var enemy = this.enemies.get();
-            enemy.setActive(true);
-            enemy.setVisible(true);
+        //     var enemy = this.enemies.get();
+        //     enemy.setActive(true);
+        //     enemy.setVisible(true);
+            pizzaman.nextDialog();
 
-            // remove the if and make it rainbow rain !!
-            if (enemy) {
-                enemy.summon(player);
-                lastSummoned = time + 200;
-             }
+        //     // remove the if and make it rainbow rain !!
+        //     if (enemy) {
+        //         enemy.summon(player);
+        //         lastSummoned = time + 200;
+        //      }
         }
 
             }
