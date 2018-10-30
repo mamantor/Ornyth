@@ -1,8 +1,16 @@
 var uno='0';
+var dos='0';
 
 function textCallback2(data){
-    console.log(uno);
-    data.scale = this.pizzatween.getValue() > data.index/this.dialog[this.dialogIndex].length ? this.dialogScale : 0;
+    dos++
+    const tweenValue = this.pizzatween.getValue();
+    if (dos%20 === 0){
+        // console.log(tweenValue);
+    } 
+    data.scale = tweenValue > data.index/this.dialog[this.dialogIndex].length ? this.dialogScale : 0;
+    if (tweenValue == 1) {
+        this.unlockNextDialog=true;
+    }
     return data
 }
 
@@ -28,6 +36,7 @@ var Pnj = new Phaser.Class({
         this.speech;
         this.dialogScale = dialogScale;
         this.dialogIndex=0;
+        this.unlockNextDialog=false;
 
         this.pizzatween = scene.tweens.addCounter({
             from: 0,
@@ -47,14 +56,20 @@ var Pnj = new Phaser.Class({
     speak: function(x,y) {
         this.speech = this.ctx.add.dynamicBitmapText(x, y, 'computerFont', this.dialog[this.dialogIndex], 1);
         this.speech.setDisplayCallback(textCallback2.bind(this));
+        console.log(this.speech);
         this.pizzatween.play();
+        console.log(this.pizzatween);
+
     },
     nextDialog: function() {
-        this.dialogIndex++;
-        this.speech.setText(this.dialog[this.dialogIndex]);
-        uno='1'
-        this.pizzatween.restart();
-        this.pizzatween.play();
+        if (this.unlockNextDialog) {
+            this.unlockNextDialog=false;
+            this.dialogIndex++;
+            this.speech.setText("yoyoyoyoyoy");
+            uno='1'
+            this.pizzatween.restart();
+            console.log(this.pizzatween.isPlaying());
+        }
     },
     showbubble: function() {
         if (!this.speaking){
