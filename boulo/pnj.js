@@ -64,8 +64,9 @@ var Pnj = new Phaser.Class({
     nextDialog: function() {
         if (this.unlockNextDialog) {
             this.unlockNextDialog=false;
-            this.dialogIndex++;
-            this.speech.setText("yoyoyoyoyoy");
+            this.dialogIndex=((this.dialogIndex+1 === this.dialog.length) ? 0 : (this.dialogIndex+1));
+            console.log(this.dialogIndex);
+            this.speech.setText(this.dialog[this.dialogIndex]);
             uno='1'
             this.pizzatween.restart();
             console.log(this.pizzatween.isPlaying());

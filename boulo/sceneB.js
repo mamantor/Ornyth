@@ -382,16 +382,16 @@ var SceneB = new Phaser.Class({
         }
 
         if (cursors.down.isDown && time > lastSummoned) {
-        //     var enemy = this.enemies.get();
-        //     enemy.setActive(true);
-        //     enemy.setVisible(true);
+            var enemy = this.enemies.get();
+            enemy.setActive(true);
+            enemy.setVisible(true);
             pizzaman.nextDialog();
 
-        //     // remove the if and make it rainbow rain !!
-        //     if (enemy) {
-        //         enemy.summon(player);
-        //         lastSummoned = time + 200;
-        //      }
+            // remove the if and make it rainbow rain !!
+            if (enemy) {
+                enemy.summon(player);
+                lastSummoned = time + 200;
+             }
         }
 
             }
