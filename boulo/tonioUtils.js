@@ -8,7 +8,8 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
 	sprite.setVelocityX(0);
 	sprite.setVelocityY(0);
 	
-    var newPlayer = ctx.physics.add.sprite(newSpriteX, newSpriteY, newSpriteKey);
+    // var newPlayer = ctx.physics.add.sprite(newSpriteX, newSpriteY, newSpriteKey);
+    var newPlayer = new Player(ctx, newSpriteX, newSpriteY, newSpriteKey);
 
     ctx.physics.add.collider(newPlayer, layer);
     ctx.physics.add.overlap(newPlayer, pizzaman, (player, pizzaman) => {
@@ -19,8 +20,9 @@ function playerOutOfSprite(sprite, newSpriteKey, ctx) {
     });
     ctx.physics.add.collider(newPlayer, layer2);
     ctx.physics.add.collider(newPlayer, layer);
-    ctx.physics.add.collider(newPlayer, ctx.enemies, function (sprite1, sprite2) {
-        sprite1.hit(sprite2);
+    ctx.physics.add.collider(newPlayer, ctx.enemies,(newPlayer, sprite2) => {
+        console.log(newPlayer);
+        newPlayer.hit(sprite2);
     });
     newPlayer.setCollideWorldBounds(true);
     newPlayer.setBounce(0.2);

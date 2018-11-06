@@ -344,19 +344,20 @@ var SceneB = new Phaser.Class({
             player.setVelocityX(0);
         }
 
-        if (cursors.up.isDown)
-        {
-            if (!flamming) {
-                flames[0].anims.play('burningFlame', false);
-                flames[1].anims.play('burningFlame', false);
-                flamming = true;
+        if (cursors.up.isDown) {
+            if (flames[0] !== undefined) {
+                if (!flamming) {
+                    flames[0].anims.play('burningFlame', false);
+                    flames[1].anims.play('burningFlame', false);
+                    flamming = true;
+                }
+            } else {
+                flames[0].anims.play('idleFlame', true);
+                flames[1].anims.play('idleFlame', true);
+                flamming = false;
             }
             player.body.velocity.y -= 10;
-
-        } else {
-            flames[0].anims.play('idleFlame', true);
-            flames[1].anims.play('idleFlame', true);
-            flamming = false;
+            
         }
 
         // if (cursors.down.isDown && player.body.touching.down)
@@ -370,7 +371,7 @@ var SceneB = new Phaser.Class({
             bullet.setActive(true);
             bullet.setVisible(true);
 
-            text.setText("toto");
+            text.setText("Ornyth");
             text.setDepth(1);
             console.log(text);
             textTween.play();

@@ -13,19 +13,18 @@ var Player = new Phaser.Class({
         scene.sys.updateList.add(this);
  
         scene.physics.world.enableBody(this, 0);
+        this.statsManager = new statsManager(2, 100);
         
         this.born = 0;
-        this.hitpoints = 100;
-        this.hp = 1;
         this.invulnerable = false;
         this.colliders = []; // for player out of sprites
         
     },
     hit: function(collideObject) {
         if (!this.invulnerable) {
-            this.hp -= collideObject.hitpoints;
-            console.log('benne hit ! Life :', this.hp);
-            if (this.hp <= 0) {
+            this.statsManager.life -= collideObject.hitpoints;
+            console.log('benne hit ! Life :', this.statsManager.life);
+            if (this.statsManager.life <= 0) {
                 this.die();
             }
             this.invulnerable = true;
