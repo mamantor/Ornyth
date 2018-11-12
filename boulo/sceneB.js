@@ -57,7 +57,7 @@ function mine(sprite, tile, ctx) {
         tile.visible = false;
         tile.destroy();
         tile.resetCollision();
-        game.scene.getScene('PopupInventory').events.emit('updateInventory',material, this);
+        game.scene.getScene('MaterialPopupInventory').events.emit('updateInventory',material, this);
 
     }
 
@@ -99,14 +99,17 @@ var SceneB = new Phaser.Class({
         this.load.bitmapFont('computerFont', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
 
         this.load.spritesheet('pizzaman', 'assets/sprites/pizzaman.png', { frameWidth: 300, frameHeight: 400 });
-
-
-
+        const MaterialPopupInventory = new PopupInventory ('MaterialPopupInventory', 'inventoryCase',  'assets/tilemaps/inventoryCase.png', 'popupInventoryMap', 'tilemaps/popupInventory.json');
+        // this.scene.manager.createSceneFromInstance(MaterialPopupInventory ,MaterialPopupInventory);
+        // MaterialPopupInventory.sys.config = {key:"MaterialPopupInventory"};
+        console.log(MaterialPopupInventory);
+        console.log(this.scene.manager);
+        // this.scene.manager.scenes.push(MaterialPopupInventory);
+        this.scene.manager.add("MaterialPopupInventory", MaterialPopupInventory);
     },
 
     create: function ()
     {
-        
         text = this.add.dynamicBitmapText(32, 100, 'computerFont', 'toto', 64);
         text.setActive(false);
         text.setDepth(5);
@@ -247,6 +250,7 @@ var SceneB = new Phaser.Class({
 
         this.input.keyboard.on('keydown_P', function () {
 
+            console.log(this.scene.manager);
             // this.input.stopPropagation();
             // this.input.keyboard.stopListeners();
             // this.input.stopPropagation();
@@ -268,12 +272,12 @@ var SceneB = new Phaser.Class({
                     crafter.scene.start();
                 }
 
-                // this.scene.bringToTop('PopupInventory');
-                var popupInventry = this.scene.manager.getScene('PopupInventory');
+                // this.scene.bringToTop('MaterialPopupInventory');
+                var popupInventry = this.scene.manager.getScene('MaterialPopupInventory');
                 /*popupInventry.sys.setActive(true);
                 popupInventry.sys.setVisible(true);*/
                 //popupInventry.sys.bringToTop();
-                // this.scene.bringToTop('PopupInventory');
+                // this.scene.bringToTop('MaterialPopupInventory');
                 if (popupInventry.scene.isActive()) {
                     popupInventry.scene.bringToTop();
                     // popupInventry.events.emit('updateInventory', this);
@@ -285,8 +289,8 @@ var SceneB = new Phaser.Class({
                 
 
                 // this.scene.manager.scenes[2].scene.setVisible();
-                // Phaser.Scenes.SceneManager().getScene('PopupInventory');
-                // console.log(this.scene.manager.getScene('PopupInventory'));
+                // Phaser.Scenes.SceneManager().getScene('MaterialPopupInventory');
+                // console.log(this.scene.manager.getScene('MaterialPopupInventory'));
             }
             this.input.stopPropagation();
 

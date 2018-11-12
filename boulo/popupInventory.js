@@ -38,18 +38,29 @@ function updatePopupInventory (materialID){
 var PopupInventory = new Phaser.Class({
         Extends: Phaser.Scene,
 
+
         preload: function () {
-            this.load.image('inventoryCase', 'assets/tilemaps/inventoryCase.png');
-            this.load.tilemapTiledJSON('popupInventoryMap', 'tilemaps/popupInventory.json');
-            this.load.spritesheet('material', 'assets/tilesets/material.png', { frameWidth: 40, frameHeight: 40 });
+            // this.load.image('inventoryCase', 'assets/tilemaps/inventoryCase.png');
+            // this.load.tilemapTiledJSON('popupInventoryMap', 'tilemaps/popupInventory.json');
+            this.load.spritesheet('material', 'assets/tilesets/material.png', { frameWidth: 40, frameHeight: 40 });            
+            
+            this.load.image(this.tilesetName, this.tileset);
+            this.load.tilemapTiledJSON(this.tileMapName, this.thileMap);
 
         },
-        initialize: function PopupInventory (){
-                Phaser.Scene.call(this, { key: 'PopupInventory'});
+
+        // ('PopupInventory', 'inventoryCase',  'assets/tilemaps/inventoryCase.png', 'popupInventoryMap', 'tilemaps/popupInventory.json')
+        PopupInventory : function (name, tilesetName, tileset,  tileMapName, thileMap){
+
+                this.name = name;
+                this.tileset = tileset;
+                this.tilesetName = tilesetName;
+                this.tileMapName = tileMapName;
+                this.thileMap = thileMap;
+                Phaser.Scene.call(this, { key: this.name, active : true});
             },
 
         create: function () {
-
             ShiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
             inventoryMap = this.make.tilemap({key: 'popupInventoryMap'});
