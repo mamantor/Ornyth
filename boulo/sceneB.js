@@ -102,8 +102,6 @@ var SceneB = new Phaser.Class({
         const MaterialPopupInventory = new PopupInventory ('MaterialPopupInventory', 'inventoryCase',  'assets/tilemaps/inventoryCase.png', 'popupInventoryMap', 'tilemaps/popupInventory.json');
         // this.scene.manager.createSceneFromInstance(MaterialPopupInventory ,MaterialPopupInventory);
         // MaterialPopupInventory.sys.config = {key:"MaterialPopupInventory"};
-        console.log(MaterialPopupInventory);
-        console.log(this.scene.manager);
         // this.scene.manager.scenes.push(MaterialPopupInventory);
         this.scene.manager.add("MaterialPopupInventory", MaterialPopupInventory);
     },
